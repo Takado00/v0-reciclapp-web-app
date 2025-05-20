@@ -31,50 +31,50 @@ export function MaterialesList({ materiales }: MaterialesListProps) {
     // Categoría Papel/Cartón
     if (categoriaLower.includes("papel") || categoriaLower.includes("cartón") || categoriaLower.includes("carton")) {
       if (nombreLower.includes("periódico") || nombreLower.includes("periodico") || nombreLower.includes("diario")) {
-        return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgwQZgGwRo8YJFY0LZrxqLBcIO8OKZ5HJh-Yd9Hl9y4XZV9LFYfXwwKbMvhBL_MPYtPLfEYDgMXQfL5aBYQP-_OwXfmGRXwdcBwZ_xQEZqP9Hl5jJJZEYmhbA/s16000/periodicos-reciclaje.jpg"
+        return "https://images.unsplash.com/photo-1598618443855-232ee0f819f6?q=80&w=800&auto=format&fit=crop"
       }
-      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPdZBXMYwkrHRhCt9Vd5LnFKgHU9H-Iy9PLXGkWQNmGBMg9Xk8zWX_SiJzVpJLYFLO-cD-_qYfpQXtD_cNWNlNvyJHjA5Ry8wqrXtXdlMcRGwqJbmXQJnXdA/s16000/carton-reciclaje.jpg"
+      return "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=800&auto=format&fit=crop"
     }
 
     // Categoría Plástico
     else if (categoriaLower.includes("plástico") || categoriaLower.includes("plastico")) {
       if (nombreLower.includes("pet") || nombreLower.includes("botella")) {
-        return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjMQTQDQu_QEQhK7h6jYqLKzGxYLJSAlPHGXmhkf9Jk8ZQwQWsF-8jlGGnzA_ELKgcv9fHQIJ9RlYKSuB9vLYQnYRwvdcCZA9VjLmQnpQXtD_cNWNlNvyJHjA/s16000/botellas-pet.jpg"
+        return "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg"
       }
-      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXJQXtD_cNWNlNvyJHjA5Ry8wqrXtXdlMcRGwqJbmXQJnXdAZBXMYwkrHRhCt9Vd5LnFKgHU9H-Iy9PLXGkWQNmGBMg9Xk8zWX_SiJzVpJLYFLO/s16000/plasticos-reciclaje.jpg"
+      return "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg"
     }
 
     // Categoría Vidrio
     else if (categoriaLower.includes("vidrio")) {
-      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT/s16000/vidrio-reciclaje.jpg"
+      return "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg"
     }
 
     // Categoría Metal/Aluminio
     else if (categoriaLower.includes("metal") || categoriaLower.includes("aluminio")) {
       if (nombreLower.includes("lata") || nombreLower.includes("aluminio") || nombreLower.includes("latas")) {
-        return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg"
+        return "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432"
       }
       return "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop"
     }
 
     // Categoría Orgánico
     else if (categoriaLower.includes("orgánico") || categoriaLower.includes("organico")) {
-      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQEZqP9Hl5jJJZEYmhbAGwRo8YJFY0LZrxqLBcIO8OKZ5HJh-Yd9Hl9y4XZV9LFYfXwwKbMvhBL_MPYtPLfEYDgMXQfL5aBYQP-_O/s16000/organico-reciclaje.jpg"
+      return "https://images.unsplash.com/photo-1591954746678-a253972b2177?q=80&w=800&auto=format&fit=crop"
     }
 
     // Categoría Electrónico
     else if (categoriaLower.includes("electrónico") || categoriaLower.includes("electronico")) {
-      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjdcCZA9VjLmQnpQXtD_cNWNlNvyJHjA5Ry8wqrXtXdlMcRGwqJbmXQJnXdAZBXMYwkrHRhCt9Vd5LnFKgHU9H-Iy9PLXGkWQNmGBMg9Xk8zWX_SiJzVpJLYFLO/s16000/electronicos-reciclaje.jpg"
+      return "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=800&auto=format&fit=crop"
     }
 
     // Categoría Textil
     else if (categoriaLower.includes("textil") || nombreLower.includes("ropa") || nombreLower.includes("tela")) {
-      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMQTQDQu_QEQhK7h6jYqLKzGxYLJSAlPHGXmhkf9Jk8ZQwQWsF-8jlGGnzA_ELKgcv9fHQIJ9RlYKSuB9vLYQnYRwv/s16000/textil-reciclaje.jpg"
+      return "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=800&auto=format&fit=crop"
     }
 
     // Categoría por defecto
     else {
-      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_OwXfmGRXwdcBwZ_xQEZqP9Hl5jJJZEYmhbAGwRo8YJFY0LZrxqLBcIO8OKZ5HJh-Yd9Hl9y4XZV9LFYfXwwKbMvhBL_MPYtPLfEYDgMXQfL5aBYQP/s16000/reciclaje-general.jpg"
+      return "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop"
     }
   }
 

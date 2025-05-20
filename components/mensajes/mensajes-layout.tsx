@@ -102,7 +102,7 @@ export function MensajesLayout({ children }: MensajesLayoutProps) {
                 Recicladores
               </Button>
             </Link>
-            <Link href="/empresas">
+            <Link href="/mensajes/empresas">
               <Button
                 variant={activeTab === "empresas" ? "default" : "outline"}
                 className={`w-full justify-start ${activeTab === "empresas" ? "bg-blue-600 hover:bg-blue-700" : ""}`}
@@ -111,13 +111,13 @@ export function MensajesLayout({ children }: MensajesLayoutProps) {
                 Empresas
               </Button>
             </Link>
-            <Link href="/mensajes/contactos?mostrar=todos">
+            <Link href="/mensajes/contactos">
               <Button
                 variant={activeTab === "contactos" ? "default" : "outline"}
                 className={`w-full justify-start ${activeTab === "contactos" ? "bg-purple-600 hover:bg-purple-700" : ""}`}
               >
                 <Users className="h-4 w-4 mr-2" />
-                Todos los Usuarios
+                Contactos
               </Button>
             </Link>
           </div>

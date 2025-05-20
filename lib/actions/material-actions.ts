@@ -14,11 +14,6 @@ type MaterialData = {
   precio: number
   ubicacion_id?: number
   imagen_url?: string
-  condicion?: string
-  origen?: string
-  comentarios_adicionales?: string
-  disponibilidad?: string
-  fotos?: string[]
 }
 
 type MaterialResult = {
@@ -125,7 +120,7 @@ export async function getPublicacionById(id: number) {
 }
 
 // Función para crear una nueva publicación de material
-export async function crearPublicacion(formData: FormData): Promise<MaterialResult> {
+export async function crearPublicacion(data: MaterialData): Promise<MaterialResult> {
   try {
     const user = await getCurrentUser()
 
@@ -138,48 +133,27 @@ export async function crearPublicacion(formData: FormData): Promise<MaterialResu
 
     const supabase = createActionClient()
 
-    // Extraer datos del formulario
-    const titulo = formData.get("titulo") as string
-    const descripcion = formData.get("descripcion") as string
-    const material_id = Number.parseInt(formData.get("material_id") as string)
-    const cantidad = Number.parseFloat(formData.get("cantidad") as string)
-    const unidad_medida = formData.get("unidad_medida") as string
-    const precio = Number.parseFloat(formData.get("precio") as string) || 0
-    const ubicacion_id = Number.parseInt(formData.get("ubicacion_id") as string) || null
-    const imagen_url = (formData.get("imagen_url") as string) || null
-    const condicion = (formData.get("condicion") as string) || null
-    const origen = (formData.get("origen") as string) || null
-    const comentarios_adicionales = (formData.get("comentarios_adicionales") as string) || null
-    const disponibilidad = (formData.get("disponibilidad") as string) || null
-
     // Validar datos
-    if (!titulo || !material_id || !cantidad || !unidad_medida) {
+    if (!data.titulo || !data.material_id || !data.cantidad || !data.unidad_medida) {
       return {
         success: false,
         error: "Faltan campos obligatorios.",
       }
     }
 
-    // Procesar fotos (esto sería implementado completamente con almacenamiento de archivos)
-    // Por ahora solo usamos la URL de imagen proporcionada
-
     // Insertar la publicación
     const { data: nuevaPublicacion, error } = await supabase
       .from("publicaciones")
       .insert({
         usuario_id: user.userId,
-        material_id: material_id,
-        titulo: titulo,
-        descripcion: descripcion,
-        cantidad: cantidad,
-        unidad_medida: unidad_medida,
-        precio: precio,
-        ubicacion_id: ubicacion_id,
-        imagen_url: imagen_url,
-        condicion: condicion,
-        origen: origen,
-        comentarios_adicionales: comentarios_adicionales,
-        disponibilidad: disponibilidad,
+        material_id: data.material_id,
+        titulo: data.titulo,
+        descripcion: data.descripcion,
+        cantidad: data.cantidad,
+        unidad_medida: data.unidad_medida,
+        precio: data.precio,
+        ubicacion_id: data.ubicacion_id,
+        imagen_url: data.imagen_url,
         estado: "disponible",
         fecha_publicacion: new Date().toISOString(),
         fecha_actualizacion: new Date().toISOString(),
@@ -198,7 +172,7 @@ export async function crearPublicacion(formData: FormData): Promise<MaterialResu
     await supabase.from("historial").insert({
       usuario_id: user.userId,
       accion: "crear_publicacion",
-      descripcion: `Publicación de material: ${titulo}`,
+      descripcion: `Publicación de material: ${data.titulo}`,
       entidad: "publicaciones",
       entidad_id: nuevaPublicacion[0].id,
       fecha_accion: new Date().toISOString(),

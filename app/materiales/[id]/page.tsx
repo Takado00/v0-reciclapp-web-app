@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Info, Recycle, Download } from "lucide-react"
+import { ArrowLeft, Info, Recycle } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 
 // Materiales predeterminados para mostrar cuando no se encuentra un material
@@ -16,7 +16,7 @@ const defaultMateriales = [
     nombre: "Botellas PET",
     descripcion: "Botellas de plástico PET reciclables, limpias y sin etiquetas.",
     categoria: "Plástico",
-    imagen_url: "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=800&auto=format&fit=crop",
+    imagen_url: "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg",
     precio_estimado: 5.5,
     unidad_medida: "kg",
     cantidad: 10,
@@ -40,8 +40,7 @@ const defaultMateriales = [
     nombre: "Latas de Aluminio",
     descripcion: "Latas de aluminio compactadas y limpias.",
     categoria: "Metal",
-    imagen_url:
-      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg",
+    imagen_url: "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432",
     precio_estimado: 12.75,
     unidad_medida: "kg",
     cantidad: 5,
@@ -53,7 +52,8 @@ const defaultMateriales = [
     nombre: "Botellas de Vidrio",
     descripcion: "Botellas de vidrio transparente sin tapas ni etiquetas.",
     categoria: "Vidrio",
-    imagen_url: "https://images.unsplash.com/photo-1604349841434-d6e7837fc372?q=80&w=800&auto=format&fit=crop",
+    imagen_url:
+      "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg",
     precio_estimado: 2.8,
     unidad_medida: "kg",
     cantidad: 20,
@@ -65,7 +65,8 @@ const defaultMateriales = [
     nombre: "Papel de Oficina",
     descripcion: "Papel blanco de oficina usado por un lado.",
     categoria: "Papel",
-    imagen_url: "https://images.unsplash.com/photo-1598618443855-232ee0f819f6?q=80&w=800&auto=format&fit=crop",
+    imagen_url:
+      "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
     precio_estimado: 4.0,
     unidad_medida: "kg",
     cantidad: 8,
@@ -160,26 +161,26 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
       if (nombreLower.includes("periódico") || nombreLower.includes("periodico") || nombreLower.includes("diario")) {
         return "https://images.unsplash.com/photo-1598618443855-232ee0f819f6?q=80&w=800&auto=format&fit=crop"
       }
-      return "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=800&auto=format&fit=crop"
+      return "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0"
     }
 
     // Categoría Plástico
     else if (categoriaLower.includes("plástico") || categoriaLower.includes("plastico")) {
       if (nombreLower.includes("pet") || nombreLower.includes("botella")) {
-        return "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=800&auto=format&fit=crop"
+        return "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg"
       }
-      return "https://images.unsplash.com/photo-1571727153934-b9e0a8a8b1b1?q=80&w=800&auto=format&fit=crop"
+      return "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg"
     }
 
     // Categoría Vidrio
     else if (categoriaLower.includes("vidrio")) {
-      return "https://images.unsplash.com/photo-1604349841434-d6e7837fc372?q=80&w=800&auto=format&fit=crop"
+      return "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg"
     }
 
     // Categoría Metal/Aluminio
     else if (categoriaLower.includes("metal") || categoriaLower.includes("aluminio")) {
       if (nombreLower.includes("lata") || nombreLower.includes("aluminio") || nombreLower.includes("latas")) {
-        return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg"
+        return "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432"
       }
       return "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop"
     }
@@ -205,89 +206,39 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
     }
   }
 
-  // Verificar si estamos viendo el material de latas de aluminio (ID 3)
-  const isAluminumCans =
-    materialToShow.id === 3 ||
-    (materialToShow.nombre &&
-      materialToShow.nombre.toLowerCase().includes("lata") &&
-      materialToShow.categoria &&
-      materialToShow.categoria.toLowerCase().includes("metal"))
-
-  // Forzar la URL de la imagen para latas de aluminio
-  if (isAluminumCans) {
-    materialToShow.imagen_url =
-      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg"
-  }
-
-  // Verificar si estamos viendo el material de cartón (ID 2)
-  const isCarton =
-    materialToShow.id === 2 ||
-    (materialToShow.nombre &&
-      (materialToShow.nombre.toLowerCase().includes("cartón") ||
-        materialToShow.nombre.toLowerCase().includes("carton")) &&
-      materialToShow.categoria &&
-      (materialToShow.categoria.toLowerCase().includes("cartón") ||
-        materialToShow.categoria.toLowerCase().includes("carton")))
-
-  // Forzar la URL de la imagen para cartón
-  if (isCarton) {
-    materialToShow.imagen_url =
-      "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=800&auto=format&fit=crop"
-  }
-
-  // Usar imágenes de alta calidad para todos los materiales
-  const highQualityImages = {
-    1: "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=1200&auto=format&fit=crop", // Botellas PET
-    2: "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=1200&auto=format&fit=crop", // Cartón
-    3: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg", // Latas de Aluminio
-    4: "https://images.unsplash.com/photo-1604349841434-d6e7837fc372?q=80&w=1200&auto=format&fit=crop", // Botellas de Vidrio
-    5: "https://images.unsplash.com/photo-1598618443855-232ee0f819f6?q=80&w=1200&auto=format&fit=crop", // Papel de Oficina
-    6: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=1200&auto=format&fit=crop", // Residuos Electrónicos
-    7: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=1200&auto=format&fit=crop", // Textiles
-    8: "https://images.unsplash.com/photo-1591954746678-a253972b2177?q=80&w=1200&auto=format&fit=crop", // Residuos Orgánicos
-  }
-
-  // Usar imagen de alta calidad si está disponible para este ID
-  if (materialToShow.id && highQualityImages[materialToShow.id as keyof typeof highQualityImages]) {
-    materialToShow.imagen_url = highQualityImages[materialToShow.id as keyof typeof highQualityImages]
-  }
-
   // Generar imágenes adicionales para la galería
   let gallery = []
 
-  if (isAluminumCans) {
-    // Para latas de aluminio, no mostrar galería adicional
-    gallery = []
-  } else if (isDefaultMaterial) {
+  if (isDefaultMaterial) {
     // Si es un material predeterminado, generar imágenes de galería
     const baseImage = materialToShow.imagen_url || getDefaultImage(materialToShow.categoria, materialToShow.nombre)
 
     // Imágenes adicionales según la categoría
     const categoryImages = {
       Plástico: [
-        "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1571727153934-b9e0a8a8b1b1?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1528190336454-13cd56b45b5a?q=80&w=800&auto=format&fit=crop",
+        "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg",
+        "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg",
+        "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg",
       ],
       Cartón: [
-        "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1530587191325-3db32d826c18?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1607583444918-da5fb2631d37?q=80&w=800&auto=format&fit=crop",
+        "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
+        "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
+        "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
       ],
       Metal: [
-        "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1561116108-4ecaa5e95932?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1605792657667-9d0148b11fa2?q=80&w=800&auto=format&fit=crop",
+        "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432",
+        "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432",
+        "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432",
       ],
       Vidrio: [
-        "https://images.unsplash.com/photo-1604349841434-d6e7837fc372?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1550411294-56f7d0c7fbe6?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1485550409059-9afb054cada4?q=80&w=800&auto=format&fit=crop",
+        "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg",
+        "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg",
+        "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg",
       ],
       Papel: [
-        "https://images.unsplash.com/photo-1598618443855-232ee0f819f6?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1598618253208-d75408cee680?q=80&w=800&auto=format&fit=crop",
+        "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
+        "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
+        "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
       ],
       Electrónico: [
         "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=800&auto=format&fit=crop",
@@ -403,52 +354,52 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Columna izquierda: Imágenes */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden border shadow-md">
+            <div className="aspect-video relative rounded-lg overflow-hidden border group">
               <Image
                 src={materialToShow.imagen_url || getDefaultImage(materialToShow.categoria, materialToShow.nombre)}
                 alt={materialToShow.nombre}
                 fill
-                className="object-contain"
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                onError={(e) => {
-                  // Fallback a una imagen genérica si la imagen principal falla
-                  const target = e.target as HTMLImageElement
-                  target.src =
-                    "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop"
-                }}
+                className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                <h2 className="text-white text-xl font-bold">{materialToShow.nombre}</h2>
-                <p className="text-white/80 text-sm">{materialToShow.categoria}</p>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
 
-            {/* Solo mostrar la galería si no es el material de latas de aluminio */}
-            {!isAluminumCans && gallery.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {gallery.map((img, index) => (
-                  <div
-                    key={index}
-                    className="relative h-[100px] rounded-md overflow-hidden border shadow cursor-pointer"
-                  >
-                    <Image
-                      src={img || getDefaultImage(materialToShow.categoria, materialToShow.nombre + " " + index)}
-                      alt={`${materialToShow.nombre} - imagen ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                      onError={(e) => {
-                        // Fallback a una imagen genérica si la imagen de galería falla
-                        const target = e.target as HTMLImageElement
-                        target.src =
-                          "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop"
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-4 gap-2">
+              {gallery.length > 0
+                ? gallery.map((img, index) => (
+                    <div
+                      key={index}
+                      className="aspect-square relative rounded-md overflow-hidden border cursor-pointer group"
+                    >
+                      <Image
+                        src={img || getDefaultImage(materialToShow.categoria, materialToShow.nombre + " " + index)}
+                        alt={`${materialToShow.nombre} - imagen ${index + 1}`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                    </div>
+                  ))
+                : Array(4)
+                    .fill(0)
+                    .map((_, index) => (
+                      <div key={index} className="aspect-square relative rounded-md overflow-hidden border">
+                        <Image
+                          src={
+                            getDefaultImage(materialToShow.categoria, materialToShow.nombre + " " + index) ||
+                            "/placeholder.svg" ||
+                            "/placeholder.svg" ||
+                            "/placeholder.svg" ||
+                            "/placeholder.svg" ||
+                            "/placeholder.svg"
+                          }
+                          alt={`${materialToShow.nombre} - imagen ${index + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+            </div>
           </div>
 
           {/* Columna derecha: Información */}
@@ -533,16 +484,10 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
                 <Recycle className="mr-2 h-4 w-4" />
                 Contactar para reciclar
               </Button>
-              <div className="grid grid-cols-2 gap-2">
-                <Button variant="outline">
-                  <Info className="mr-2 h-4 w-4" />
-                  Más información
-                </Button>
-                <Button variant="outline">
-                  <Download className="mr-2 h-4 w-4" />
-                  Descargar ficha
-                </Button>
-              </div>
+              <Button variant="outline" className="w-full">
+                <Info className="mr-2 h-4 w-4" />
+                Solicitar más información
+              </Button>
             </div>
           </div>
         </div>
