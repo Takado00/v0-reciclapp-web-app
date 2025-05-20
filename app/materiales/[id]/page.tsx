@@ -205,10 +205,27 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
     }
   }
 
+  // Verificar si estamos viendo el material de latas de aluminio (ID 3)
+  const isAluminumCans =
+    materialToShow.id === 3 ||
+    (materialToShow.nombre &&
+      materialToShow.nombre.toLowerCase().includes("lata") &&
+      materialToShow.categoria &&
+      materialToShow.categoria.toLowerCase().includes("metal"))
+
+  // Forzar la URL de la imagen para latas de aluminio
+  if (isAluminumCans) {
+    materialToShow.imagen_url =
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg"
+  }
+
   // Generar imágenes adicionales para la galería
   let gallery = []
 
-  if (isDefaultMaterial) {
+  if (isAluminumCans) {
+    // Para latas de aluminio, no mostrar galería adicional
+    gallery = []
+  } else if (isDefaultMaterial) {
     // Si es un material predeterminado, generar imágenes de galería
     const baseImage = materialToShow.imagen_url || getDefaultImage(materialToShow.categoria, materialToShow.nombre)
 
@@ -225,9 +242,9 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
         "https://images.unsplash.com/photo-1607583444918-da5fb2631d37?q=80&w=800&auto=format&fit=crop",
       ],
       Metal: [
-        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg",
-        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg",
-        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg",
+        "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1561116108-4ecaa5e95932?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1605792657667-9d0148b11fa2?q=80&w=800&auto=format&fit=crop",
       ],
       Vidrio: [
         "https://images.unsplash.com/photo-1604349841434-d6e7837fc372?q=80&w=800&auto=format&fit=crop",
@@ -363,42 +380,24 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
 
-            <div className="grid grid-cols-4 gap-2">
-              {gallery.length > 0
-                ? gallery.map((img, index) => (
-                    <div
-                      key={index}
-                      className="aspect-square relative rounded-md overflow-hidden border cursor-pointer group"
-                    >
-                      <Image
-                        src={img || getDefaultImage(materialToShow.categoria, materialToShow.nombre + " " + index)}
-                        alt={`${materialToShow.nombre} - imagen ${index + 1}`}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
-                    </div>
-                  ))
-                : Array(4)
-                    .fill(0)
-                    .map((_, index) => (
-                      <div key={index} className="aspect-square relative rounded-md overflow-hidden border">
-                        <Image
-                          src={
-                            getDefaultImage(materialToShow.categoria, materialToShow.nombre + " " + index) ||
-                            "/placeholder.svg" ||
-                            "/placeholder.svg" ||
-                            "/placeholder.svg" ||
-                            "/placeholder.svg" ||
-                            "/placeholder.svg"
-                          }
-                          alt={`${materialToShow.nombre} - imagen ${index + 1}`}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    ))}
-            </div>
+            {/* Solo mostrar la galería si no es el material de latas de aluminio */}
+            {!isAluminumCans && gallery.length > 0 && (
+              <div className="grid grid-cols-4 gap-2">
+                {gallery.map((img, index) => (
+                  <div
+                    key={index}
+                    className="aspect-square relative rounded-md overflow-hidden border cursor-pointer group"
+                  >
+                    <Image
+                      src={img || getDefaultImage(materialToShow.categoria, materialToShow.nombre + " " + index)}
+                      alt={`${materialToShow.nombre} - imagen ${index + 1}`}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Columna derecha: Información */}
