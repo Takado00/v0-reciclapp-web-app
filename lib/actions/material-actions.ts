@@ -3,6 +3,7 @@
 import { createActionClient } from "@/lib/supabase/server"
 import { getCurrentUser } from "@/lib/actions/auth-actions"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 
 // Tipos para las funciones de materiales
 type MaterialData = {
@@ -14,6 +15,11 @@ type MaterialData = {
   precio: number
   ubicacion_id?: number
   imagen_url?: string
+  condicion?: string
+  origen?: string
+  comentarios_adicionales?: string
+  disponibilidad?: string
+  fotos?: string[]
 }
 
 type MaterialResult = {
@@ -120,25 +126,34 @@ export async function getPublicacionById(id: number) {
 }
 
 // Función para crear una nueva publicación de material
-export async function crearPublicacion(data: MaterialData): Promise<MaterialResult> {
+export async function crearPublicacion(formData: FormData) {
   try {
     const user = await getCurrentUser()
 
     if (!user) {
-      return {
-        success: false,
-        error: "Debes iniciar sesión para publicar materiales.",
-      }
+      return redirect("/login?redirect=/materiales/publicar")
     }
 
     const supabase = createActionClient()
 
+    // Extraer datos del formulario
+    const titulo = formData.get("titulo") as string
+    const descripcion = formData.get("descripcion") as string
+    const material_id = Number.parseInt(formData.get("material_id") as string)
+    const cantidad = Number.parseFloat(formData.get("cantidad") as string)
+    const unidad_medida = formData.get("unidad_medida") as string
+    const precio = Number.parseFloat(formData.get("precio") as string) || 0
+    const ubicacion_id = Number.parseInt(formData.get("ubicacion_id") as string) || null
+    const imagen_url = (formData.get("imagen_url") as string) || null
+    const condicion = (formData.get("condicion") as string) || null
+    const origen = (formData.get("origen") as string) || null
+    const comentarios_adicionales = (formData.get("comentarios_adicionales") as string) || null
+    const disponibilidad = (formData.get("disponibilidad") as string) || null
+
     // Validar datos
-    if (!data.titulo || !data.material_id || !data.cantidad || !data.unidad_medida) {
-      return {
-        success: false,
-        error: "Faltan campos obligatorios.",
-      }
+    if (!titulo || !material_id || !cantidad || !unidad_medida) {
+      // Mostrar error en la UI
+      return { error: "Faltan campos obligatorios." }
     }
 
     // Insertar la publicación
@@ -146,14 +161,18 @@ export async function crearPublicacion(data: MaterialData): Promise<MaterialResu
       .from("publicaciones")
       .insert({
         usuario_id: user.userId,
-        material_id: data.material_id,
-        titulo: data.titulo,
-        descripcion: data.descripcion,
-        cantidad: data.cantidad,
-        unidad_medida: data.unidad_medida,
-        precio: data.precio,
-        ubicacion_id: data.ubicacion_id,
-        imagen_url: data.imagen_url,
+        material_id: material_id,
+        titulo: titulo,
+        descripcion: descripcion,
+        cantidad: cantidad,
+        unidad_medida: unidad_medida,
+        precio: precio,
+        ubicacion_id: ubicacion_id,
+        imagen_url: imagen_url,
+        condicion: condicion,
+        origen: origen,
+        comentarios_adicionales: comentarios_adicionales,
+        disponibilidad: disponibilidad,
         estado: "disponible",
         fecha_publicacion: new Date().toISOString(),
         fecha_actualizacion: new Date().toISOString(),
@@ -162,17 +181,14 @@ export async function crearPublicacion(data: MaterialData): Promise<MaterialResu
 
     if (error) {
       console.error("Error al crear publicación:", error)
-      return {
-        success: false,
-        error: "Error al crear la publicación. Por favor, inténtalo de nuevo.",
-      }
+      return { error: "Error al crear la publicación. Por favor, inténtalo de nuevo." }
     }
 
     // Registrar en el historial
     await supabase.from("historial").insert({
       usuario_id: user.userId,
       accion: "crear_publicacion",
-      descripcion: `Publicación de material: ${data.titulo}`,
+      descripcion: `Publicación de material: ${titulo}`,
       entidad: "publicaciones",
       entidad_id: nuevaPublicacion[0].id,
       fecha_accion: new Date().toISOString(),
@@ -180,16 +196,11 @@ export async function crearPublicacion(data: MaterialData): Promise<MaterialResu
 
     revalidatePath("/materiales")
 
-    return {
-      success: true,
-      publicacionId: nuevaPublicacion[0].id,
-    }
+    // Redirigir a la página de materiales después de crear la publicación
+    return redirect("/materiales")
   } catch (error) {
     console.error("Error al crear publicación:", error)
-    return {
-      success: false,
-      error: "Ha ocurrido un error al procesar tu solicitud. Inténtalo de nuevo más tarde.",
-    }
+    return { error: "Ha ocurrido un error al procesar tu solicitud. Inténtalo de nuevo más tarde." }
   }
 }
 
