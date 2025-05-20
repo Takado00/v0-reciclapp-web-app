@@ -35,12 +35,8 @@ export default function LoginPage() {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession()
       if (data.session) {
-        // Si ya está autenticado, redirigir a la página original o a la principal
-        if (redirect) {
-          router.push(redirect)
-        } else {
-          router.push("/")
-        }
+        // Si ya está autenticado, redirigir a su perfil
+        router.push(`/perfil/${data.session.user.id}`)
       }
     }
 
@@ -76,11 +72,11 @@ export default function LoginPage() {
         variant: "default",
       })
 
-      // Redirigir a la página original si existe, de lo contrario ir a la página principal
+      // MODIFICADO: Redirigir al perfil del usuario después de iniciar sesión
       if (redirect) {
         router.push(redirect)
       } else {
-        router.push("/") // Cambiar de perfil a página principal
+        router.push(`/perfil/${data.user.id}`)
       }
 
       router.refresh()

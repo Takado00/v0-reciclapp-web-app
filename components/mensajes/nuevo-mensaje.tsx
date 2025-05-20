@@ -50,17 +50,8 @@ export function NuevoMensaje({ currentUser, destinatario, material }: NuevoMensa
     setContactando(true)
 
     try {
-      // Verificar que ambos usuarios existen
-      const { data: usuariosExistentes, error: errorUsuarios } = await supabase
-        .from("usuarios")
-        .select("id")
-        .in("id", [currentUser.id, destinatario.id])
-
-      if (errorUsuarios) throw errorUsuarios
-
-      if (!usuariosExistentes || usuariosExistentes.length !== 2) {
-        throw new Error("Uno o ambos usuarios no existen en la base de datos")
-      }
+      // Simular un pequeño retraso para mostrar el mensaje de "contactando"
+      await new Promise((resolve) => setTimeout(resolve, 1500))
 
       // Crear nueva conversación
       const { data: newConversation, error: convError } = await supabase
@@ -68,7 +59,6 @@ export function NuevoMensaje({ currentUser, destinatario, material }: NuevoMensa
         .insert({
           usuario1_id: currentUser.id,
           usuario2_id: destinatario.id,
-          ultimo_mensaje: mensaje,
           ultima_actualizacion: new Date().toISOString(),
         })
         .select("id")
@@ -107,10 +97,7 @@ export function NuevoMensaje({ currentUser, destinatario, material }: NuevoMensa
     }
   }
 
-  // Asegurarse de que tenemos un nombre para mostrar
-  const nombreCompleto = destinatario.nombre
-    ? `${destinatario.nombre || ""} ${destinatario.apellido || ""}`.trim()
-    : "Usuario"
+  const nombreCompleto = `${destinatario.nombre || ""} ${destinatario.apellido || ""}`.trim()
 
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] min-h-[500px]">

@@ -3,7 +3,6 @@
 import { createActionClient } from "@/lib/supabase/server"
 import { getCurrentUser } from "@/lib/actions/auth-actions"
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 
 // Tipos para las funciones de materiales
 type MaterialData = {
@@ -126,12 +125,15 @@ export async function getPublicacionById(id: number) {
 }
 
 // Función para crear una nueva publicación de material
-export async function crearPublicacion(formData: FormData) {
+export async function crearPublicacion(formData: FormData): Promise<MaterialResult> {
   try {
     const user = await getCurrentUser()
 
     if (!user) {
-      return redirect("/login?redirect=/materiales/publicar")
+      return {
+        success: false,
+        error: "Debes iniciar sesión para publicar materiales.",
+      }
     }
 
     const supabase = createActionClient()
@@ -152,9 +154,14 @@ export async function crearPublicacion(formData: FormData) {
 
     // Validar datos
     if (!titulo || !material_id || !cantidad || !unidad_medida) {
-      // Mostrar error en la UI
-      return { error: "Faltan campos obligatorios." }
+      return {
+        success: false,
+        error: "Faltan campos obligatorios.",
+      }
     }
+
+    // Procesar fotos (esto sería implementado completamente con almacenamiento de archivos)
+    // Por ahora solo usamos la URL de imagen proporcionada
 
     // Insertar la publicación
     const { data: nuevaPublicacion, error } = await supabase
@@ -181,7 +188,10 @@ export async function crearPublicacion(formData: FormData) {
 
     if (error) {
       console.error("Error al crear publicación:", error)
-      return { error: "Error al crear la publicación. Por favor, inténtalo de nuevo." }
+      return {
+        success: false,
+        error: "Error al crear la publicación. Por favor, inténtalo de nuevo.",
+      }
     }
 
     // Registrar en el historial
@@ -196,11 +206,16 @@ export async function crearPublicacion(formData: FormData) {
 
     revalidatePath("/materiales")
 
-    // Redirigir a la página de materiales después de crear la publicación
-    return redirect("/materiales")
+    return {
+      success: true,
+      publicacionId: nuevaPublicacion[0].id,
+    }
   } catch (error) {
     console.error("Error al crear publicación:", error)
-    return { error: "Ha ocurrido un error al procesar tu solicitud. Inténtalo de nuevo más tarde." }
+    return {
+      success: false,
+      error: "Ha ocurrido un error al procesar tu solicitud. Inténtalo de nuevo más tarde.",
+    }
   }
 }
 

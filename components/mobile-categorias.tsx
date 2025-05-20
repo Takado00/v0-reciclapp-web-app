@@ -33,7 +33,7 @@ export function MobileCategorias() {
       href: "/materiales?categoria=electronico",
     },
     {
-      icon: "https://cdn-icons-png.flaticon.com/512/4616/4616731.png",
+      icon: "https://cdn-icons-png.flaticon.com/512/2321/2321099.png",
       name: "Textil",
       href: "/materiales?categoria=textil",
     },
