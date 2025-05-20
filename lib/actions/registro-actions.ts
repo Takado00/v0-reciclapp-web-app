@@ -3,6 +3,7 @@
 import { createActionClient } from "@/lib/supabase/server"
 import { v4 as uuidv4 } from "uuid"
 import bcrypt from "bcryptjs"
+import { revalidatePath } from "next/cache"
 
 type RegistroData = {
   email: string
@@ -51,7 +52,10 @@ export async function registrarUsuario(data: RegistroData) {
       email: data.email,
       password: data.password,
       options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/login`,
+        data: {
+          nombre: data.nombre,
+          tipo_usuario: data.userType,
+        },
       },
     })
 
@@ -113,10 +117,19 @@ export async function registrarUsuario(data: RegistroData) {
         throw new Error(`Error en intento 1: ${insertError.message}`)
       } else {
         console.log("Usuario insertado exitosamente en intento 1")
+
+        // Revalidar rutas para asegurar que los datos se actualicen
+        revalidatePath(`/perfil/${userId}`)
+        revalidatePath(`/perfil`)
+
         return {
           success: true,
           message: "Usuario registrado correctamente",
           userId,
+          credentials: {
+            email: data.email,
+            password: data.password,
+          },
         }
       }
     } catch (error: any) {
@@ -133,6 +146,8 @@ export async function registrarUsuario(data: RegistroData) {
           rol_id: rolMapping[data.userType] || 1,
           tipo_usuario: data.userType,
           fecha_registro: new Date().toISOString(),
+          descripcion: data.descripcion || null,
+          ciudad: data.ciudad || null,
         }
 
         const { error: error2 } = await supabase.from("usuarios").insert(datosReducidos)
@@ -141,10 +156,19 @@ export async function registrarUsuario(data: RegistroData) {
           throw new Error(`Error en intento 2: ${error2.message}`)
         } else {
           console.log("Usuario insertado exitosamente en intento 2")
+
+          // Revalidar rutas
+          revalidatePath(`/perfil/${userId}`)
+          revalidatePath(`/perfil`)
+
           return {
             success: true,
             message: "Usuario registrado correctamente (datos básicos)",
             userId,
+            credentials: {
+              email: data.email,
+              password: data.password,
+            },
           }
         }
       } catch (error2: any) {
@@ -158,6 +182,7 @@ export async function registrarUsuario(data: RegistroData) {
             nombre: data.nombre,
             correo: data.email,
             rol_id: rolMapping[data.userType] || 1,
+            fecha_registro: new Date().toISOString(),
           }
 
           const { error: error3 } = await supabase.from("usuarios").insert(datosMinimos)
@@ -166,10 +191,19 @@ export async function registrarUsuario(data: RegistroData) {
             throw new Error(`Error en intento 3: ${error3.message}`)
           } else {
             console.log("Usuario insertado exitosamente en intento 3")
+
+            // Revalidar rutas
+            revalidatePath(`/perfil/${userId}`)
+            revalidatePath(`/perfil`)
+
             return {
               success: true,
               message: "Usuario registrado correctamente (datos mínimos)",
               userId,
+              credentials: {
+                email: data.email,
+                password: data.password,
+              },
             }
           }
         } catch (error3: any) {
@@ -182,6 +216,9 @@ export async function registrarUsuario(data: RegistroData) {
                 nombre: data.nombre,
                 rol: data.userType,
                 rol_id: rolMapping[data.userType] || 1,
+                tipo_usuario: data.userType,
+                ciudad: data.ciudad || null,
+                descripcion: data.descripcion || null,
               },
             })
 
@@ -191,6 +228,10 @@ export async function registrarUsuario(data: RegistroData) {
               message: "Usuario registrado parcialmente (solo en Auth)",
               userId,
               partial: true,
+              credentials: {
+                email: data.email,
+                password: data.password,
+              },
             }
           } catch (error4: any) {
             console.error("Error en actualización de Auth:", error4)

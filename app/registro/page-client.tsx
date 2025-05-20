@@ -14,6 +14,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Loader2, User, Building2, Recycle, ArrowLeft, CheckCircle } from "lucide-react"
 import { registrarUsuario } from "@/lib/actions/registro-actions"
+import { createClient } from "@/lib/supabase/client"
 
 export default function RegistroClient() {
   const [email, setEmail] = useState("")
@@ -40,6 +41,7 @@ export default function RegistroClient() {
   const [areasServicio, setAreasServicio] = useState("")
 
   const router = useRouter()
+  const supabase = createClient()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,10 +80,41 @@ export default function RegistroClient() {
       })
 
       if (result.success) {
-        setSuccess("Registro exitoso. Redirigiendo al inicio de sesión...")
-        setTimeout(() => {
-          router.push("/login")
-        }, 2000)
+        setSuccess("Registro exitoso. Iniciando sesión automáticamente...")
+
+        // Iniciar sesión automáticamente con las credenciales
+        if (result.credentials) {
+          try {
+            const { error: signInError } = await supabase.auth.signInWithPassword({
+              email: result.credentials.email,
+              password: result.credentials.password,
+            })
+
+            if (signInError) {
+              console.error("Error al iniciar sesión automáticamente:", signInError)
+              setSuccess("Registro exitoso. Redirigiendo al inicio de sesión...")
+              setTimeout(() => {
+                router.push("/login")
+              }, 2000)
+            } else {
+              // Sesión iniciada correctamente, redirigir al perfil
+              setTimeout(() => {
+                router.push(`/perfil/${result.userId}`)
+              }, 1500)
+            }
+          } catch (loginError) {
+            console.error("Error en inicio de sesión automático:", loginError)
+            setSuccess("Registro exitoso. Redirigiendo al inicio de sesión...")
+            setTimeout(() => {
+              router.push("/login")
+            }, 2000)
+          }
+        } else {
+          // Si no hay credenciales, redirigir al login
+          setTimeout(() => {
+            router.push("/login")
+          }, 2000)
+        }
       } else {
         setError(result.error || "Error durante el registro")
       }
@@ -227,6 +260,23 @@ export default function RegistroClient() {
                   />
                 </div>
 
+                <div>
+                  <Label htmlFor="descripcion">Descripción (opcional)</Label>
+                  <Input
+                    id="descripcion"
+                    type="text"
+                    value={descripcion}
+                    onChange={(e) => setDescripcion(e.target.value)}
+                    placeholder={
+                      userType === "empresa"
+                        ? "Breve descripción de su empresa"
+                        : userType === "reciclador"
+                          ? "Breve descripción de sus servicios"
+                          : "Breve descripción personal"
+                    }
+                  />
+                </div>
+
                 {/* Campos específicos según el tipo de usuario */}
                 <TabsContent value="usuario">
                   {/* No necesitamos campos adicionales para usuarios regulares */}
@@ -268,16 +318,6 @@ export default function RegistroClient() {
                         placeholder="Ej: Norte, Centro, Sur"
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="descripcionReciclador">Descripción (opcional)</Label>
-                      <Input
-                        id="descripcionReciclador"
-                        type="text"
-                        value={descripcion}
-                        onChange={(e) => setDescripcion(e.target.value)}
-                        placeholder="Breve descripción de tus servicios"
-                      />
-                    </div>
                   </div>
                 </TabsContent>
 
@@ -311,16 +351,6 @@ export default function RegistroClient() {
                         value={materialesAceptados}
                         onChange={(e) => setMaterialesAceptados(e.target.value)}
                         placeholder="Ej: Papel, Plástico, Vidrio"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="descripcionEmpresa">Descripción (opcional)</Label>
-                      <Input
-                        id="descripcionEmpresa"
-                        type="text"
-                        value={descripcion}
-                        onChange={(e) => setDescripcion(e.target.value)}
-                        placeholder="Breve descripción de su empresa"
                       />
                     </div>
                   </div>

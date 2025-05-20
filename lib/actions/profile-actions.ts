@@ -35,30 +35,107 @@ export async function getUserProfile(userId: string) {
 
     const supabase = createActionClient()
 
+    // Primero, verificar si el usuario existe en Auth
+    const { data: authUser, error: authError } = await supabase.auth.getUser()
+
+    if (authError) {
+      console.error("Error al verificar usuario en Auth:", authError)
+    }
+
     // Obtener datos básicos del usuario con su rol
-    // Excluimos foto_perfil de la consulta inicial para evitar errores si no existe
     const { data: usuariosData, error: userError } = await supabase
       .from("usuarios")
       .select(`
-    id, 
-    nombre, 
-    correo, 
-    telefono, 
-    direccion, 
-    ciudad, 
-    fecha_registro, 
-    ultima_conexion,
-    roles(id, nombre)
-  `)
+        id, 
+        nombre, 
+        correo, 
+        telefono, 
+        direccion, 
+        ciudad, 
+        fecha_registro, 
+        ultima_conexion,
+        descripcion,
+        tipo_usuario,
+        rol_id,
+        roles(id, nombre)
+      `)
       .eq("id", userId)
+      .maybeSingle()
 
     if (userError) {
       console.error("Error al obtener usuario:", userError)
+
+      // Si hay error, intentar obtener datos de Auth
+      if (authUser?.user && authUser.user.id === userId) {
+        const userData = authUser.user.user_metadata || {}
+
+        return {
+          profile: {
+            id: userId,
+            nombre: userData.nombre || userData.full_name || "Usuario",
+            correo: authUser.user.email,
+            fecha_registro: authUser.user.created_at,
+            tipo_usuario: userData.tipo_usuario || "usuario",
+            descripcion: userData.descripcion || null,
+            ciudad: userData.ciudad || null,
+            roles: { nombre: userData.tipo_usuario || "usuario" },
+          },
+          stats: {
+            materiales: 0,
+            transacciones: 0,
+            valoraciones: 0,
+          },
+        }
+      }
+
       throw userError
     }
 
     // Si no hay datos o hay múltiples, manejamos el caso
-    const usuario = usuariosData && usuariosData.length > 0 ? usuariosData[0] : null
+    const usuario = usuariosData || null
+
+    // Si no hay usuario en la base de datos pero sí en Auth, creamos un perfil básico
+    if (!usuario && authUser?.user && authUser.user.id === userId) {
+      const userData = authUser.user.user_metadata || {}
+
+      // Intentar crear el registro en la base de datos
+      try {
+        const { error: insertError } = await supabase.from("usuarios").insert({
+          id: userId,
+          nombre: userData.nombre || userData.full_name || "Usuario",
+          correo: authUser.user.email,
+          fecha_registro: authUser.user.created_at,
+          tipo_usuario: userData.tipo_usuario || "usuario",
+          rol_id: userData.rol_id || 1,
+          descripcion: userData.descripcion || null,
+          ciudad: userData.ciudad || null,
+        })
+
+        if (insertError) {
+          console.error("Error al crear perfil desde Auth:", insertError)
+        }
+      } catch (error) {
+        console.error("Error al intentar crear perfil:", error)
+      }
+
+      return {
+        profile: {
+          id: userId,
+          nombre: userData.nombre || userData.full_name || "Usuario",
+          correo: authUser.user.email,
+          fecha_registro: authUser.user.created_at,
+          tipo_usuario: userData.tipo_usuario || "usuario",
+          descripcion: userData.descripcion || null,
+          ciudad: userData.ciudad || null,
+          roles: { nombre: userData.tipo_usuario || "usuario" },
+        },
+        stats: {
+          materiales: 0,
+          transacciones: 0,
+          valoraciones: 0,
+        },
+      }
+    }
 
     // Después de obtener el usuario básico, intentar obtener campos adicionales
     let camposAdicionales = {}
@@ -87,21 +164,6 @@ export async function getUserProfile(userId: string) {
         } catch (createError) {
           console.error("Error al crear columna foto_perfil:", createError)
         }
-      }
-
-      try {
-        // Intentar obtener la columna descripcion
-        const { data: descripcionData, error: descripcionError } = await supabase
-          .from("usuarios")
-          .select("descripcion")
-          .eq("id", userId)
-          .single()
-
-        if (!descripcionError && descripcionData && descripcionData.descripcion) {
-          camposAdicionales = { ...camposAdicionales, descripcion: descripcionData.descripcion }
-        }
-      } catch (error) {
-        console.log("La columna descripcion no existe, continuando sin ella")
       }
 
       try {
@@ -157,7 +219,15 @@ export async function getUserProfile(userId: string) {
     let stats = {}
 
     try {
-      if (usuarioCompleto.roles?.nombre === "usuario" || usuarioCompleto.roles?.nombre === "persona-natural") {
+      const tipoUsuario =
+        usuarioCompleto.tipo_usuario ||
+        (usuarioCompleto.roles?.nombre === "reciclador"
+          ? "reciclador"
+          : usuarioCompleto.roles?.nombre === "empresa"
+            ? "empresa"
+            : "usuario")
+
+      if (tipoUsuario === "usuario" || tipoUsuario === "persona-natural") {
         // Estadísticas para persona natural
         const [materialesCount, transaccionesCount, valoracionesCount] = await Promise.all([
           supabase.from("publicaciones").select("id", { count: "exact" }).eq("usuario_id", userId),
@@ -170,7 +240,7 @@ export async function getUserProfile(userId: string) {
           transacciones: transaccionesCount.count || 0,
           valoraciones: valoracionesCount.count || 0,
         }
-      } else if (usuarioCompleto.roles?.nombre === "reciclador") {
+      } else if (tipoUsuario === "reciclador") {
         // Estadísticas para reciclador
         const [materialesCount, transaccionesCount, clientesCount, valoracionPromedio] = await Promise.all([
           supabase.from("publicaciones").select("id", { count: "exact" }).eq("usuario_id", userId),
@@ -197,7 +267,7 @@ export async function getUserProfile(userId: string) {
           clientes: clientesCount.count || 0,
           valoracion: valoracionPromedio.toFixed(1),
         }
-      } else if (usuarioCompleto.roles?.nombre === "empresa") {
+      } else if (tipoUsuario === "empresa") {
         // Estadísticas para empresa
         const [materialesCount, transaccionesCount, proveedoresCount, valoracionPromedio] = await Promise.all([
           supabase.from("publicaciones").select("id", { count: "exact" }).eq("usuario_id", userId),
