@@ -6,7 +6,7 @@ export function MobileDestacados() {
     {
       id: 1,
       nombre: "Botellas PET",
-      imagen: "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=500&auto=format&fit=crop",
+      imagen: "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg",
       precio: "500-800",
       unidad: "kg",
       categoria: "Plástico",
@@ -14,7 +14,8 @@ export function MobileDestacados() {
     {
       id: 2,
       nombre: "Cartón",
-      imagen: "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=500&auto=format&fit=crop",
+      imagen:
+        "https://sjc.microlink.io/k1XNCI2NCfxBU5J28bwZqEGFnoaY5CgxQ9Clcx1ReocMRIoVUlSj8IaFeWySCkCzkfguQ8ljJqeqgO3He51jEQ.jpeg",
       precio: "200-350",
       unidad: "kg",
       categoria: "Papel",
@@ -22,7 +23,7 @@ export function MobileDestacados() {
     {
       id: 3,
       nombre: "Aluminio",
-      imagen: "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=500&auto=format&fit=crop",
+      imagen: "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg",
       precio: "1500-2000",
       unidad: "kg",
       categoria: "Metal",
@@ -30,7 +31,8 @@ export function MobileDestacados() {
     {
       id: 4,
       nombre: "Vidrio",
-      imagen: "https://images.unsplash.com/photo-1604349841434-d6e7837fc372?q=80&w=500&auto=format&fit=crop",
+      imagen:
+        "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg",
       precio: "100-200",
       unidad: "kg",
       categoria: "Vidrio",

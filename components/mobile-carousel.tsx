@@ -29,11 +29,6 @@ export function MobileCarousel() {
       title: "Plásticos",
       description: "Conoce los diferentes tipos de plásticos reciclables",
     },
-    {
-      image: "https://images.unsplash.com/photo-1616069555273-2f4d7d369c17?q=80&w=1000&auto=format&fit=crop",
-      title: "Metales",
-      description: "Los metales pueden reciclarse infinitas veces",
-    },
   ]
 
   const nextSlide = useCallback(() => {

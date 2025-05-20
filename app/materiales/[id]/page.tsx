@@ -28,7 +28,8 @@ const defaultMateriales = [
     nombre: "Cartón",
     descripcion: "Cajas de cartón y cartón corrugado en buen estado.",
     categoria: "Cartón",
-    imagen_url: "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=800&auto=format&fit=crop",
+    imagen_url:
+      "https://sjc.microlink.io/k1XNCI2NCfxBU5J28bwZqEGFnoaY5CgxQ9Clcx1ReocMRIoVUlSj8IaFeWySCkCzkfguQ8ljJqeqgO3He51jEQ.jpeg",
     precio_estimado: 3.2,
     unidad_medida: "kg",
     cantidad: 15,
@@ -40,7 +41,7 @@ const defaultMateriales = [
     nombre: "Latas de Aluminio",
     descripcion: "Latas de aluminio compactadas y limpias.",
     categoria: "Metal",
-    imagen_url: "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432",
+    imagen_url: "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg",
     precio_estimado: 12.75,
     unidad_medida: "kg",
     cantidad: 5,
@@ -78,7 +79,8 @@ const defaultMateriales = [
     nombre: "Residuos Electrónicos",
     descripcion: "Componentes electrónicos pequeños como placas y cables.",
     categoria: "Electrónico",
-    imagen_url: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=800&auto=format&fit=crop",
+    imagen_url:
+      "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2024/02/startup-gana-80000-euros-mes-extrayendo-oro-cobre-dispositivos-tiramos-basura-3270798.jpg?tf=1200x675",
     precio_estimado: 15.0,
     unidad_medida: "kg",
     cantidad: 3,
@@ -90,7 +92,7 @@ const defaultMateriales = [
     nombre: "Textiles",
     descripcion: "Ropa y telas en buen estado para reutilización.",
     categoria: "Textil",
-    imagen_url: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=800&auto=format&fit=crop",
+    imagen_url: "https://www.canecas.com.co/images/NOTICIAS_2020/reciclar-retazos-de-tela-2.jpg",
     precio_estimado: 6.5,
     unidad_medida: "kg",
     cantidad: 7,
@@ -102,7 +104,7 @@ const defaultMateriales = [
     nombre: "Residuos Orgánicos",
     descripcion: "Residuos de cocina y jardín para compostaje.",
     categoria: "Orgánico",
-    imagen_url: "https://images.unsplash.com/photo-1591954746678-a253972b2177?q=80&w=800&auto=format&fit=crop",
+    imagen_url: "https://cdn0.uncomo.com/es/posts/8/8/1/que_se_tira_en_el_contenedor_organico_33188_600.jpg",
     precio_estimado: 1.2,
     unidad_medida: "kg",
     cantidad: 25,
@@ -158,6 +160,14 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
 
     // Categoría Papel/Cartón
     if (categoriaLower.includes("papel") || categoriaLower.includes("cartón") || categoriaLower.includes("carton")) {
+      if (
+        nombreLower.includes("cartón") ||
+        nombreLower.includes("carton") ||
+        categoriaLower.includes("cartón") ||
+        categoriaLower.includes("carton")
+      ) {
+        return "https://sjc.microlink.io/k1XNCI2NCfxBU5J28bwZqEGFnoaY5CgxQ9Clcx1ReocMRIoVUlSj8IaFeWySCkCzkfguQ8ljJqeqgO3He51jEQ.jpeg"
+      }
       if (nombreLower.includes("periódico") || nombreLower.includes("periodico") || nombreLower.includes("diario")) {
         return "https://images.unsplash.com/photo-1598618443855-232ee0f819f6?q=80&w=800&auto=format&fit=crop"
       }
@@ -180,29 +190,29 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
     // Categoría Metal/Aluminio
     else if (categoriaLower.includes("metal") || categoriaLower.includes("aluminio")) {
       if (nombreLower.includes("lata") || nombreLower.includes("aluminio") || nombreLower.includes("latas")) {
-        return "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432"
+        return "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg"
       }
-      return "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop"
+      return "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg"
     }
 
     // Categoría Orgánico
     else if (categoriaLower.includes("orgánico") || categoriaLower.includes("organico")) {
-      return "https://images.unsplash.com/photo-1591954746678-a253972b2177?q=80&w=800&auto=format&fit=crop"
+      return "https://cdn0.uncomo.com/es/posts/8/8/1/que_se_tira_en_el_contenedor_organico_33188_600.jpg"
     }
 
     // Categoría Electrónico
     else if (categoriaLower.includes("electrónico") || categoriaLower.includes("electronico")) {
-      return "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=800&auto=format&fit=crop"
+      return "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2024/02/startup-gana-80000-euros-mes-extrayendo-oro-cobre-dispositivos-tiramos-basura-3270798.jpg?tf=1200x675"
     }
 
     // Categoría Textil
     else if (categoriaLower.includes("textil") || nombreLower.includes("ropa") || nombreLower.includes("tela")) {
-      return "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=800&auto=format&fit=crop"
+      return "https://www.canecas.com.co/images/NOTICIAS_2020/reciclar-retazos-de-tela-2.jpg"
     }
 
     // Categoría por defecto
     else {
-      return "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop"
+      return "https://www.renovablesverdes.com/wp-content/uploads/2021/04/materiales-reciclables-para-reutilizar.jpg"
     }
   }
 
@@ -221,14 +231,14 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
         "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg",
       ],
       Cartón: [
-        "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
-        "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
-        "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
+        "https://sjc.microlink.io/k1XNCI2NCfxBU5J28bwZqEGFnoaY5CgxQ9Clcx1ReocMRIoVUlSj8IaFeWySCkCzkfguQ8ljJqeqgO3He51jEQ.jpeg",
+        "https://sjc.microlink.io/k1XNCI2NCfxBU5J28bwZqEGFnoaY5CgxQ9Clcx1ReocMRIoVUlSj8IaFeWySCkCzkfguQ8ljJqeqgO3He51jEQ.jpeg",
+        "https://sjc.microlink.io/k1XNCI2NCfxBU5J28bwZqEGFnoaY5CgxQ9Clcx1ReocMRIoVUlSj8IaFeWySCkCzkfguQ8ljJqeqgO3He51jEQ.jpeg",
       ],
       Metal: [
-        "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432",
-        "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432",
-        "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432",
+        "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg",
+        "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg",
+        "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg",
       ],
       Vidrio: [
         "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg",
@@ -241,27 +251,27 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
         "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0",
       ],
       Electrónico: [
-        "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1526406915894-7bcd65f60845?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=800&auto=format&fit=crop",
+        "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2024/02/startup-gana-80000-euros-mes-extrayendo-oro-cobre-dispositivos-tiramos-basura-3270798.jpg?tf=1200x675",
+        "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2024/02/startup-gana-80000-euros-mes-extrayendo-oro-cobre-dispositivos-tiramos-basura-3270798.jpg?tf=1200x675",
+        "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2024/02/startup-gana-80000-euros-mes-extrayendo-oro-cobre-dispositivos-tiramos-basura-3270798.jpg?tf=1200x675",
       ],
       Textil: [
-        "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop",
+        "https://www.canecas.com.co/images/NOTICIAS_2020/reciclar-retazos-de-tela-2.jpg",
+        "https://www.canecas.com.co/images/NOTICIAS_2020/reciclar-retazos-de-tela-2.jpg",
+        "https://www.canecas.com.co/images/NOTICIAS_2020/reciclar-retazos-de-tela-2.jpg",
       ],
       Orgánico: [
-        "https://images.unsplash.com/photo-1591954746678-a253972b2177?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1580852300654-03c803a14e24?q=80&w=800&auto=format&fit=crop",
+        "https://cdn0.uncomo.com/es/posts/8/8/1/que_se_tira_en_el_contenedor_organico_33188_600.jpg",
+        "https://cdn0.uncomo.com/es/posts/8/8/1/que_se_tira_en_el_contenedor_organico_33188_600.jpg",
+        "https://cdn0.uncomo.com/es/posts/8/8/1/que_se_tira_en_el_contenedor_organico_33188_600.jpg",
       ],
     }
 
     // Usar imágenes específicas de la categoría o imágenes genéricas
     const categoryImages2 = categoryImages[materialToShow.categoria as keyof typeof categoryImages] || [
-      "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1604187351574-c75ca79f5807?q=80&w=800&auto=format&fit=crop",
+      "https://www.renovablesverdes.com/wp-content/uploads/2021/04/materiales-reciclables-para-reutilizar.jpg",
+      "https://www.renovablesverdes.com/wp-content/uploads/2021/04/materiales-reciclables-para-reutilizar.jpg",
+      "https://www.renovablesverdes.com/wp-content/uploads/2021/04/materiales-reciclables-para-reutilizar.jpg",
     ]
 
     gallery = [baseImage, ...categoryImages2]
@@ -387,6 +397,7 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
                         <Image
                           src={
                             getDefaultImage(materialToShow.categoria, materialToShow.nombre + " " + index) ||
+                            "/placeholder.svg" ||
                             "/placeholder.svg" ||
                             "/placeholder.svg" ||
                             "/placeholder.svg" ||
