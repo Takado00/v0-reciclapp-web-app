@@ -9,19 +9,19 @@ export function MobileCarousel() {
 
   const slides = [
     {
-      image: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?q=80&w=1000&auto=format&fit=crop",
-      title: "Recicla y gana puntos",
-      description: "Obtén recompensas por tus acciones ecológicas",
-    },
-    {
-      image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?q=80&w=1000&auto=format&fit=crop",
-      title: "Conecta con recicladores",
-      description: "Encuentra recicladores cerca de ti",
-    },
-    {
       image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=1000&auto=format&fit=crop",
-      title: "Aprende a reciclar",
-      description: "Guías y consejos para reciclar correctamente",
+      title: "Recicla y cuida el planeta",
+      description: "Pequeñas acciones, grandes cambios para el medio ambiente",
+    },
+    {
+      image: "https://images.unsplash.com/photo-1604187351574-c75ca79f5807?q=80&w=1000&auto=format&fit=crop",
+      title: "Separa tus residuos",
+      description: "Aprende a clasificar correctamente para un mejor reciclaje",
+    },
+    {
+      image: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?q=80&w=1000&auto=format&fit=crop",
+      title: "Únete a la comunidad",
+      description: "Conecta con recicladores y empresas comprometidas",
     },
   ]
 
