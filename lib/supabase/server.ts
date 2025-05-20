@@ -17,7 +17,7 @@ export function createClient() {
 // Alias para mantener compatibilidad con código existente
 export const createServerClient = createClient
 
-// Crear un cliente de Supabase para acciones del servidor con service role key
+// Crear un cliente de Supabase para acciones del servidor
 export function createActionClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -27,12 +27,7 @@ export function createActionClient() {
     throw new Error("Supabase environment variables are not set")
   }
 
-  return createSupabaseClient<Database>(supabaseUrl, supabaseServiceKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  })
+  return createSupabaseClient<Database>(supabaseUrl, supabaseServiceKey)
 }
 
 // Función para crear un cliente de Supabase con cookies para componentes del servidor
