@@ -43,6 +43,7 @@ export function ProfileHeader({ profile, stats }: ProfileHeaderProps) {
             src={
               profile.foto_perfil ||
               "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop" ||
+              "/placeholder.svg" ||
               "/placeholder.svg"
             }
             alt={profile.nombre}
@@ -121,11 +122,7 @@ export function ProfileHeader({ profile, stats }: ProfileHeaderProps) {
       <div className="flex flex-row md:flex-col gap-4 md:gap-2 mt-4 md:mt-0">
         <div className="text-center">
           <p className="text-2xl font-bold">{stats.materiales || 0}</p>
-          <p className="text-xs text-muted-foreground">Materiales</p>
-        </div>
-        <div className="text-center">
-          <p className="text-2xl font-bold">{stats.transacciones || 0}</p>
-          <p className="text-xs text-muted-foreground">Transacciones</p>
+          <p className="text-xs text-muted-foreground">Materiales Publicados</p>
         </div>
         {userType !== "usuario" && (
           <div className="text-center">

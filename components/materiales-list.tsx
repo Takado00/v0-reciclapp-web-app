@@ -1,12 +1,9 @@
 "use client"
-
-import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Search, Clock, Tag, Info } from "lucide-react"
+import { Clock, Info } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 interface Material {
@@ -27,16 +24,6 @@ interface MaterialesListProps {
 }
 
 export function MaterialesList({ materiales }: MaterialesListProps) {
-  const [searchTerm, setSearchTerm] = useState("")
-
-  const filteredMateriales = materiales.filter(
-    (material) =>
-      material.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (material.descripcion && material.descripcion.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      material.categoria.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
-
-  // Función para obtener una imagen predeterminada según la categoría y el nombre
   const getDefaultImage = (categoria: string, nombre: string) => {
     const categoriaLower = categoria.toLowerCase()
     const nombreLower = nombre.toLowerCase()
@@ -44,47 +31,50 @@ export function MaterialesList({ materiales }: MaterialesListProps) {
     // Categoría Papel/Cartón
     if (categoriaLower.includes("papel") || categoriaLower.includes("cartón") || categoriaLower.includes("carton")) {
       if (nombreLower.includes("periódico") || nombreLower.includes("periodico") || nombreLower.includes("diario")) {
-        return "https://images.unsplash.com/photo-1598618443855-232ee0f819f6?q=80&w=800&auto=format&fit=crop"
+        return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgwQZgGwRo8YJFY0LZrxqLBcIO8OKZ5HJh-Yd9Hl9y4XZV9LFYfXwwKbMvhBL_MPYtPLfEYDgMXQfL5aBYQP-_OwXfmGRXwdcBwZ_xQEZqP9Hl5jJJZEYmhbA/s16000/periodicos-reciclaje.jpg"
       }
-      return "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=800&auto=format&fit=crop"
+      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPdZBXMYwkrHRhCt9Vd5LnFKgHU9H-Iy9PLXGkWQNmGBMg9Xk8zWX_SiJzVpJLYFLO-cD-_qYfpQXtD_cNWNlNvyJHjA5Ry8wqrXtXdlMcRGwqJbmXQJnXdA/s16000/carton-reciclaje.jpg"
     }
 
     // Categoría Plástico
     else if (categoriaLower.includes("plástico") || categoriaLower.includes("plastico")) {
       if (nombreLower.includes("pet") || nombreLower.includes("botella")) {
-        return "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=800&auto=format&fit=crop"
+        return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjMQTQDQu_QEQhK7h6jYqLKzGxYLJSAlPHGXmhkf9Jk8ZQwQWsF-8jlGGnzA_ELKgcv9fHQIJ9RlYKSuB9vLYQnYRwvdcCZA9VjLmQnpQXtD_cNWNlNvyJHjA/s16000/botellas-pet.jpg"
       }
-      return "https://images.unsplash.com/photo-1571727153934-b9e0a8a8b1b1?q=80&w=800&auto=format&fit=crop"
+      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXJQXtD_cNWNlNvyJHjA5Ry8wqrXtXdlMcRGwqJbmXQJnXdAZBXMYwkrHRhCt9Vd5LnFKgHU9H-Iy9PLXGkWQNmGBMg9Xk8zWX_SiJzVpJLYFLO/s16000/plasticos-reciclaje.jpg"
     }
 
     // Categoría Vidrio
     else if (categoriaLower.includes("vidrio")) {
-      return "https://images.unsplash.com/photo-1604349841434-d6e7837fc372?q=80&w=800&auto=format&fit=crop"
+      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT/s16000/vidrio-reciclaje.jpg"
     }
 
     // Categoría Metal/Aluminio
     else if (categoriaLower.includes("metal") || categoriaLower.includes("aluminio")) {
+      if (nombreLower.includes("lata") || nombreLower.includes("aluminio") || nombreLower.includes("latas")) {
+        return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg"
+      }
       return "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop"
     }
 
     // Categoría Orgánico
     else if (categoriaLower.includes("orgánico") || categoriaLower.includes("organico")) {
-      return "https://images.unsplash.com/photo-1591954746678-a253972b2177?q=80&w=800&auto=format&fit=crop"
+      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQEZqP9Hl5jJJZEYmhbAGwRo8YJFY0LZrxqLBcIO8OKZ5HJh-Yd9Hl9y4XZV9LFYfXwwKbMvhBL_MPYtPLfEYDgMXQfL5aBYQP-_O/s16000/organico-reciclaje.jpg"
     }
 
     // Categoría Electrónico
     else if (categoriaLower.includes("electrónico") || categoriaLower.includes("electronico")) {
-      return "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=800&auto=format&fit=crop"
+      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjdcCZA9VjLmQnpQXtD_cNWNlNvyJHjA5Ry8wqrXtXdlMcRGwqJbmXQJnXdAZBXMYwkrHRhCt9Vd5LnFKgHU9H-Iy9PLXGkWQNmGBMg9Xk8zWX_SiJzVpJLYFLO/s16000/electronicos-reciclaje.jpg"
     }
 
     // Categoría Textil
     else if (categoriaLower.includes("textil") || nombreLower.includes("ropa") || nombreLower.includes("tela")) {
-      return "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=800&auto=format&fit=crop"
+      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMQTQDQu_QEQhK7h6jYqLKzGxYLJSAlPHGXmhkf9Jk8ZQwQWsF-8jlGGnzA_ELKgcv9fHQIJ9RlYKSuB9vLYQnYRwv/s16000/textil-reciclaje.jpg"
     }
 
     // Categoría por defecto
     else {
-      return "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop"
+      return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_OwXfmGRXwdcBwZ_xQEZqP9Hl5jJJZEYmhbAGwRo8YJFY0LZrxqLBcIO8OKZ5HJh-Yd9Hl9y4XZV9LFYfXwwKbMvhBL_MPYtPLfEYDgMXQfL5aBYQP/s16000/reciclaje-general.jpg"
     }
   }
 
@@ -100,23 +90,13 @@ export function MaterialesList({ materiales }: MaterialesListProps) {
 
   return (
     <div className="space-y-6">
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-        <Input
-          placeholder="Buscar materiales..."
-          className="pl-10"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-
-      {filteredMateriales.length === 0 ? (
+      {materiales.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-muted-foreground">No se encontraron materiales que coincidan con tu búsqueda.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredMateriales.map((material) => (
+          {materiales.map((material) => (
             <Card
               key={material.id}
               className="overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:border-green-200"
@@ -146,15 +126,6 @@ export function MaterialesList({ materiales }: MaterialesListProps) {
                 </p>
 
                 <div className="flex flex-wrap gap-2 mt-3">
-                  {material.precio_estimado && (
-                    <div className="flex items-center">
-                      <Tag className="h-3.5 w-3.5 text-muted-foreground mr-1" />
-                      <span className="text-sm font-medium">
-                        ${material.precio_estimado}/{material.unidad_medida || "unidad"}
-                      </span>
-                    </div>
-                  )}
-
                   {material.cantidad && (
                     <div className="flex items-center">
                       <Info className="h-3.5 w-3.5 text-muted-foreground mr-1" />

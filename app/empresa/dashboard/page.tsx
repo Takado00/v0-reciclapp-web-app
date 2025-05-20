@@ -48,7 +48,7 @@ export default async function EmpresaDashboardPage() {
               <CardDescription>Explora materiales disponibles</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm">Encuentra materiales reciclables disponibles para comprar o procesar.</p>
+              <p className="text-sm">Encuentra materiales reciclables disponibles para procesar.</p>
             </CardContent>
             <CardFooter>
               <Button variant="ghost" className="w-full justify-start text-green-600">
@@ -111,7 +111,7 @@ export default async function EmpresaDashboardPage() {
             </CardHeader>
             <CardContent>
               <p className="text-sm">
-                Actualiza la información de tu empresa, materiales que compras y datos de contacto.
+                Actualiza la información de tu empresa, materiales que procesas y datos de contacto.
               </p>
             </CardContent>
             <CardFooter>
@@ -152,7 +152,7 @@ export default async function EmpresaDashboardPage() {
               <CardDescription>Analiza tu actividad</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm">Visualiza estadísticas de tus compras, proveedores y materiales procesados.</p>
+              <p className="text-sm">Visualiza estadísticas de tus proveedores y materiales procesados.</p>
             </CardContent>
             <CardFooter>
               <Button variant="ghost" className="w-full justify-start text-green-600">

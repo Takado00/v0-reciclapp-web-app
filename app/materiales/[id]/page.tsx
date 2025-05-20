@@ -40,7 +40,8 @@ const defaultMateriales = [
     nombre: "Latas de Aluminio",
     descripcion: "Latas de aluminio compactadas y limpias.",
     categoria: "Metal",
-    imagen_url: "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop",
+    imagen_url:
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg",
     precio_estimado: 12.75,
     unidad_medida: "kg",
     cantidad: 5,
@@ -177,6 +178,9 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
 
     // Categoría Metal/Aluminio
     else if (categoriaLower.includes("metal") || categoriaLower.includes("aluminio")) {
+      if (nombreLower.includes("lata") || nombreLower.includes("aluminio") || nombreLower.includes("latas")) {
+        return "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg"
+      }
       return "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop"
     }
 
@@ -221,9 +225,9 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
         "https://images.unsplash.com/photo-1607583444918-da5fb2631d37?q=80&w=800&auto=format&fit=crop",
       ],
       Metal: [
-        "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1605792657667-9d0148b11fa2?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1561116108-4ecaa5e95932?q=80&w=800&auto=format&fit=crop",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg",
+        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg",
       ],
       Vidrio: [
         "https://images.unsplash.com/photo-1604349841434-d6e7837fc372?q=80&w=800&auto=format&fit=crop",
@@ -384,6 +388,8 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
                             getDefaultImage(materialToShow.categoria, materialToShow.nombre + " " + index) ||
                             "/placeholder.svg" ||
                             "/placeholder.svg" ||
+                            "/placeholder.svg" ||
+                            "/placeholder.svg" ||
                             "/placeholder.svg"
                           }
                           alt={`${materialToShow.nombre} - imagen ${index + 1}`}
@@ -418,12 +424,6 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
                     <p className="text-xs text-muted-foreground">Cantidad</p>
                     <p className="font-medium">
                       {materialToShow.cantidad || "No especificada"} {materialToShow.unidad_medida || ""}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Precio</p>
-                    <p className="font-medium">
-                      {materialToShow.precio_estimado ? `$${materialToShow.precio_estimado}` : "No especificado"}
                     </p>
                   </div>
                   <div>

@@ -8,18 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import {
-  Calendar,
-  CreditCard,
-  DollarSign,
-  Download,
-  Package,
-  Recycle,
-  ShoppingCart,
-  Star,
-  TrendingUp,
-  Users,
-} from "lucide-react"
+import { Calendar, Package, Recycle, TrendingUp, Users } from "lucide-react"
 
 // Datos de ejemplo para el dashboard de empresa
 const dashboardData = {
@@ -27,55 +16,7 @@ const dashboardData = {
     materialesComprados: 1250,
     materialesReciclados: 980,
     proveedores: 45,
-    transaccionesCompletadas: 78,
   },
-  transaccionesRecientes: [
-    {
-      id: "TR-7245",
-      material: "Papel y Cartón",
-      proveedor: "Juan Pérez",
-      cantidad: "500 kg",
-      monto: "$250.000",
-      estado: "Completada",
-      fecha: "2023-05-10",
-    },
-    {
-      id: "TR-7244",
-      material: "Plástico PET",
-      proveedor: "María López",
-      cantidad: "300 kg",
-      monto: "$240.000",
-      estado: "En proceso",
-      fecha: "2023-05-09",
-    },
-    {
-      id: "TR-7243",
-      material: "Vidrio",
-      proveedor: "Carlos Rodríguez",
-      cantidad: "200 kg",
-      monto: "$40.000",
-      estado: "Completada",
-      fecha: "2023-05-08",
-    },
-    {
-      id: "TR-7242",
-      material: "Aluminio",
-      proveedor: "Ana Martínez",
-      cantidad: "100 kg",
-      monto: "$150.000",
-      estado: "Completada",
-      fecha: "2023-05-07",
-    },
-    {
-      id: "TR-7241",
-      material: "Cartón",
-      proveedor: "Pedro Sánchez",
-      cantidad: "400 kg",
-      monto: "$120.000",
-      estado: "Cancelada",
-      fecha: "2023-05-06",
-    },
-  ],
   principalesProveedores: [
     {
       id: 1,
@@ -154,28 +95,23 @@ export function EmpresaDashboardContent() {
             <Calendar className="h-4 w-4" />
             <span>Mayo 2023</span>
           </Button>
-          <Button variant="outline" size="sm" className="gap-1">
-            <Download className="h-4 w-4" />
-            <span>Descargar Reporte</span>
-          </Button>
         </div>
       </div>
 
       <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
           <TabsTrigger value="overview">Resumen</TabsTrigger>
-          <TabsTrigger value="transactions">Transacciones</TabsTrigger>
           <TabsTrigger value="providers">Proveedores</TabsTrigger>
           <TabsTrigger value="materials">Materiales</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Materiales Comprados</p>
+                    <p className="text-sm font-medium text-muted-foreground">Materiales Recibidos</p>
                     <h3 className="text-2xl font-bold">{dashboardData.stats.materialesComprados} kg</h3>
                   </div>
                   <div className="rounded-full bg-green-100 p-3 dark:bg-green-900">
@@ -224,73 +160,83 @@ export function EmpresaDashboardContent() {
                 </div>
               </CardContent>
             </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Transacciones</p>
-                    <h3 className="text-2xl font-bold">{dashboardData.stats.transaccionesCompletadas}</h3>
-                  </div>
-                  <div className="rounded-full bg-purple-100 p-3 dark:bg-purple-900">
-                    <CreditCard className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center text-sm text-muted-foreground">
-                  <TrendingUp className="mr-1 h-4 w-4 text-green-600" />
-                  <span>15% más que el mes pasado</span>
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
             <Card className="lg:col-span-4">
               <CardHeader>
-                <CardTitle>Transacciones Recientes</CardTitle>
-                <CardDescription>Últimas transacciones realizadas por tu empresa</CardDescription>
+                <CardTitle>Actividad Reciente</CardTitle>
+                <CardDescription>Últimas actividades realizadas por tu empresa</CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID</TableHead>
                       <TableHead>Material</TableHead>
                       <TableHead>Proveedor</TableHead>
-                      <TableHead>Monto</TableHead>
+                      <TableHead>Cantidad</TableHead>
                       <TableHead>Estado</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {dashboardData.transaccionesRecientes.slice(0, 4).map((transaction) => (
-                      <TableRow key={transaction.id}>
-                        <TableCell className="font-medium">{transaction.id}</TableCell>
-                        <TableCell>{transaction.material}</TableCell>
-                        <TableCell>{transaction.proveedor}</TableCell>
-                        <TableCell>{transaction.monto}</TableCell>
-                        <TableCell>
-                          <Badge
-                            variant="outline"
-                            className={
-                              transaction.estado === "Completada"
-                                ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-                                : transaction.estado === "En proceso"
-                                  ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
-                                  : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
-                            }
-                          >
-                            {transaction.estado}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    <TableRow>
+                      <TableCell className="font-medium">Papel y Cartón</TableCell>
+                      <TableCell>Juan Pérez</TableCell>
+                      <TableCell>500 kg</TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="outline"
+                          className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                        >
+                          Completado
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Plástico PET</TableCell>
+                      <TableCell>María López</TableCell>
+                      <TableCell>300 kg</TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="outline"
+                          className="bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
+                        >
+                          En proceso
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Vidrio</TableCell>
+                      <TableCell>Carlos Rodríguez</TableCell>
+                      <TableCell>200 kg</TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="outline"
+                          className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                        >
+                          Completado
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Aluminio</TableCell>
+                      <TableCell>Ana Martínez</TableCell>
+                      <TableCell>100 kg</TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="outline"
+                          className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                        >
+                          Completado
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
                   </TableBody>
                 </Table>
               </CardContent>
               <CardFooter>
                 <Button variant="outline" size="sm" className="ml-auto gap-1">
-                  <ShoppingCart className="h-4 w-4" />
-                  <span>Ver todas las transacciones</span>
+                  <span>Ver todas las actividades</span>
                 </Button>
               </CardFooter>
             </Card>
@@ -298,7 +244,7 @@ export function EmpresaDashboardContent() {
             <Card className="lg:col-span-3">
               <CardHeader>
                 <CardTitle>Principales Proveedores</CardTitle>
-                <CardDescription>Proveedores con más transacciones</CardDescription>
+                <CardDescription>Proveedores con más colaboraciones</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -314,15 +260,11 @@ export function EmpresaDashboardContent() {
                           <Badge variant="secondary" className="text-xs">
                             {proveedor.tipo}
                           </Badge>
-                          <div className="flex items-center text-xs text-muted-foreground">
-                            <Star className="mr-1 h-3 w-3 fill-yellow-400 text-yellow-400" />
-                            {proveedor.calificacion}
-                          </div>
                         </div>
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-medium">{proveedor.transacciones}</p>
-                        <p className="text-xs text-muted-foreground">transacciones</p>
+                        <p className="text-xs text-muted-foreground">colaboraciones</p>
                       </div>
                     </div>
                   ))}
@@ -339,8 +281,8 @@ export function EmpresaDashboardContent() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Materiales Adquiridos Recientemente</CardTitle>
-              <CardDescription>Últimos materiales comprados por tu empresa</CardDescription>
+              <CardTitle>Materiales Recibidos Recientemente</CardTitle>
+              <CardDescription>Últimos materiales recibidos por tu empresa</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
@@ -374,63 +316,6 @@ export function EmpresaDashboardContent() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="transactions" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Historial de Transacciones</CardTitle>
-              <CardDescription>Todas las transacciones realizadas por tu empresa</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>ID</TableHead>
-                    <TableHead>Material</TableHead>
-                    <TableHead>Proveedor</TableHead>
-                    <TableHead>Cantidad</TableHead>
-                    <TableHead>Monto</TableHead>
-                    <TableHead>Estado</TableHead>
-                    <TableHead>Fecha</TableHead>
-                    <TableHead>Acciones</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {dashboardData.transaccionesRecientes.map((transaction) => (
-                    <TableRow key={transaction.id}>
-                      <TableCell className="font-medium">{transaction.id}</TableCell>
-                      <TableCell>{transaction.material}</TableCell>
-                      <TableCell>{transaction.proveedor}</TableCell>
-                      <TableCell>{transaction.cantidad}</TableCell>
-                      <TableCell>{transaction.monto}</TableCell>
-                      <TableCell>
-                        <Badge
-                          variant="outline"
-                          className={
-                            transaction.estado === "Completada"
-                              ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-                              : transaction.estado === "En proceso"
-                                ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
-                                : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
-                          }
-                        >
-                          {transaction.estado}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>{transaction.fecha}</TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <DollarSign className="h-4 w-4" />
-                          <span className="sr-only">Ver detalles</span>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
         <TabsContent value="providers" className="space-y-6">
           <Card>
             <CardHeader>
@@ -456,14 +341,7 @@ export function EmpresaDashboardContent() {
                       </div>
                       <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <p className="text-muted-foreground">Calificación</p>
-                          <div className="flex items-center mt-1">
-                            <Star className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
-                            <span className="font-medium">{proveedor.calificacion}</span>
-                          </div>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground">Transacciones</p>
+                          <p className="text-muted-foreground">Colaboraciones</p>
                           <p className="font-medium mt-1">{proveedor.transacciones}</p>
                         </div>
                       </div>
@@ -484,7 +362,7 @@ export function EmpresaDashboardContent() {
           <Card>
             <CardHeader>
               <CardTitle>Materiales</CardTitle>
-              <CardDescription>Todos los materiales adquiridos por tu empresa</CardDescription>
+              <CardDescription>Todos los materiales recibidos por tu empresa</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

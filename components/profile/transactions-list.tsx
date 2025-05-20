@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
 import { Loader2 } from "lucide-react"
 
 interface TransactionsListProps {
@@ -61,51 +60,10 @@ export function TransactionsList({ userId }: TransactionsListProps) {
   }
 
   return (
-    <div className="space-y-4">
-      {transactions.map((transaction) => (
-        <Card key={transaction.id}>
-          <CardHeader>
-            <CardTitle>{transaction.material?.nombre}</CardTitle>
-            <CardDescription>{new Date(transaction.created_at).toLocaleDateString()}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="font-medium">Estado: </span>
-                <Badge
-                  className={
-                    transaction.estado === "completado"
-                      ? "bg-green-100 text-green-800"
-                      : transaction.estado === "pendiente"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800"
-                  }
-                >
-                  {transaction.estado}
-                </Badge>
-              </div>
-              <div>
-                <span className="font-medium">Material: </span>
-                <span>
-                  {transaction.material?.nombre} ({transaction.material?.tipo})
-                </span>
-              </div>
-              <div>
-                <span className="font-medium">Vendedor: </span>
-                <span>{transaction.vendedor?.nombre}</span>
-              </div>
-              <div>
-                <span className="font-medium">Comprador: </span>
-                <span>{transaction.comprador?.nombre}</span>
-              </div>
-              <div>
-                <span className="font-medium">Monto: </span>
-                <span>${transaction.monto}</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+    <Card>
+      <CardContent className="py-8 text-center">
+        <p className="text-muted-foreground">La funcionalidad de transacciones económicas ha sido deshabilitada.</p>
+      </CardContent>
+    </Card>
   )
 }

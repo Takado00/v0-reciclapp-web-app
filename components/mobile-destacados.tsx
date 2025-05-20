@@ -61,9 +61,6 @@ export function MobileDestacados() {
                   {material.categoria}
                 </Badge>
                 <h3 className="font-medium text-sm line-clamp-1">{material.nombre}</h3>
-                <p className="text-green-600 text-xs">
-                  ${material.precio}/{material.unidad}
-                </p>
               </div>
             </div>
           </Link>

@@ -122,8 +122,8 @@ export function EmpresaProfile({ profile, stats, isOwnProfile, userId }: Empresa
                 <p className="text-xs text-muted-foreground">Solicitudes</p>
               </div>
               <div className="text-center">
-                <p className="text-lg font-bold">{stats.transacciones || 0}</p>
-                <p className="text-xs text-muted-foreground">Compras</p>
+                <p className="text-lg font-bold">{stats.materiales || 0}</p>
+                <p className="text-xs text-muted-foreground">Materiales Publicados</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-bold">{stats.proveedores || 0}</p>

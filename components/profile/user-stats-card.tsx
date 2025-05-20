@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Package, ShoppingCart, Star, Users, TrendingUp, Calendar } from "lucide-react"
+import { Package, Star, Users, TrendingUp, Calendar } from "lucide-react"
 
 interface UserStatsCardProps {
   stats: any
@@ -21,16 +21,6 @@ export function UserStatsCard({ stats, userRole }: UserStatsCardProps) {
             <div>
               <p className="text-sm text-muted-foreground">Materiales</p>
               <p className="font-medium">{stats.materiales || 0}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="bg-green-100 p-2 rounded-full">
-              <ShoppingCart className="h-5 w-5 text-green-600" />
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Transacciones</p>
-              <p className="font-medium">{stats.transacciones || 0}</p>
             </div>
           </div>
 

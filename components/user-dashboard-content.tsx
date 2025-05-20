@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Package, MapPin, History, Star, TrendingUp, ArrowRight, Calendar, Clock } from "lucide-react"
+import { Package, MapPin, Star, TrendingUp, ArrowRight, Calendar, Clock } from "lucide-react"
 
 export function UserDashboardContent({ user }: { user: any }) {
   // Datos de ejemplo para el dashboard
@@ -20,11 +20,6 @@ export function UserDashboardContent({ user }: { user: any }) {
       title: "Ubicaciones Favoritas",
       value: "8",
       icon: <MapPin className="h-5 w-5 text-green-600" />,
-    },
-    {
-      title: "Transacciones",
-      value: "12",
-      icon: <History className="h-5 w-5 text-green-600" />,
     },
     {
       title: "Valoraciones",
@@ -98,7 +93,7 @@ export function UserDashboardContent({ user }: { user: any }) {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {stats.map((stat, index) => (
           <Card key={index}>
             <CardContent className="p-6">

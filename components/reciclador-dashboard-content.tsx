@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Package, Users, History, TrendingUp, ArrowRight, Star, MapPin, Plus } from "lucide-react"
+import { Package, Users, TrendingUp, ArrowRight, Star, MapPin, Plus } from "lucide-react"
 
 export function RecicladorDashboardContent({ user }: { user: any }) {
   // Datos de ejemplo para el dashboard
@@ -22,9 +22,9 @@ export function RecicladorDashboardContent({ user }: { user: any }) {
       icon: <Users className="h-5 w-5 text-green-600" />,
     },
     {
-      title: "Transacciones",
+      title: "Colaboraciones",
       value: "45",
-      icon: <History className="h-5 w-5 text-green-600" />,
+      icon: <Users className="h-5 w-5 text-green-600" />,
     },
     {
       title: "Valoración",
@@ -68,21 +68,21 @@ export function RecicladorDashboardContent({ user }: { user: any }) {
       id: 1,
       name: "Papeles Bogotá S.A.",
       image: "/placeholder.svg?height=40&width=40",
-      transactions: 12,
+      collaborations: 12,
       rating: 5,
     },
     {
       id: 2,
       name: "EcoPlásticos",
       image: "/placeholder.svg?height=40&width=40",
-      transactions: 8,
+      collaborations: 8,
       rating: 4.5,
     },
     {
       id: 3,
       name: "Vidrios del Sur",
       image: "/placeholder.svg?height=40&width=40",
-      transactions: 6,
+      collaborations: 6,
       rating: 4.8,
     },
   ]
@@ -175,7 +175,7 @@ export function RecicladorDashboardContent({ user }: { user: any }) {
           <Card>
             <CardHeader>
               <CardTitle>Principales Clientes</CardTitle>
-              <CardDescription>Clientes con los que has realizado más transacciones</CardDescription>
+              <CardDescription>Clientes con los que has realizado más colaboraciones</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -195,7 +195,7 @@ export function RecicladorDashboardContent({ user }: { user: any }) {
                       </div>
                       <div>
                         <p className="font-medium">{client.name}</p>
-                        <p className="text-xs text-muted-foreground">{client.transactions} transacciones</p>
+                        <p className="text-xs text-muted-foreground">{client.collaborations} colaboraciones</p>
                       </div>
                     </div>
                     <div className="flex items-center">
@@ -214,7 +214,7 @@ export function RecicladorDashboardContent({ user }: { user: any }) {
         <Card>
           <CardHeader>
             <CardTitle>Rendimiento</CardTitle>
-            <CardDescription>Estadísticas de tus materiales y transacciones</CardDescription>
+            <CardDescription>Estadísticas de tus materiales y colaboraciones</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -223,9 +223,9 @@ export function RecicladorDashboardContent({ user }: { user: any }) {
                   <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <h4 className="font-medium">Aumento en transacciones</h4>
+                  <h4 className="font-medium">Aumento en colaboraciones</h4>
                   <p className="text-sm text-muted-foreground">
-                    Tus transacciones han aumentado un 15% en el último mes.
+                    Tus colaboraciones han aumentado un 15% en el último mes.
                   </p>
                 </div>
               </div>

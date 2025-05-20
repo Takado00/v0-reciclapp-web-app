@@ -21,8 +21,9 @@ export function MobileProfileHeader({ profile, isOwnProfile }: MobileProfileHead
   }
 
   const handleEdit = () => {
-    // Redirigir a la página de edición o activar el modo de edición
+    // Redirigir a la página de edición de perfil
     router.push(`/perfil/editar`)
+    router.refresh()
   }
 
   const handleLogout = async () => {

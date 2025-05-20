@@ -196,7 +196,7 @@ async function getUserStats(userId: string, userRole?: string) {
   // Estadísticas básicas
   const stats: any = {
     materiales: 0,
-    transacciones: 0,
+    "Materiales Publicados": 0,
     valoracion: 0,
   }
 
@@ -221,7 +221,10 @@ async function getUserStats(userId: string, userRole?: string) {
   // Estadísticas específicas por rol
   if (userRole === "reciclador") {
     // Contar clientes únicos
-    const { data: clientes } = await supabase.from("transacciones").select("comprador_id").eq("vendedor_id", userId)
+    const { data: clientes } = await supabase
+      .from("Materiales Publicados")
+      .select("comprador_id")
+      .eq("vendedor_id", userId)
 
     if (clientes) {
       const clientesUnicos = new Set(clientes.map((c) => c.comprador_id))
@@ -229,7 +232,10 @@ async function getUserStats(userId: string, userRole?: string) {
     }
   } else if (userRole === "empresa") {
     // Contar proveedores únicos
-    const { data: proveedores } = await supabase.from("transacciones").select("vendedor_id").eq("comprador_id", userId)
+    const { data: proveedores } = await supabase
+      .from("Materiales Publicados")
+      .select("vendedor_id")
+      .eq("comprador_id", userId)
 
     if (proveedores) {
       const proveedoresUnicos = new Set(proveedores.map((p) => p.vendedor_id))

@@ -48,7 +48,7 @@ export default async function RecicladorDashboardPage() {
               <CardDescription>Explora materiales disponibles</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm">Encuentra materiales reciclables disponibles para recolectar o comprar.</p>
+              <p className="text-sm">Encuentra materiales reciclables disponibles para recolectar.</p>
             </CardContent>
             <CardFooter>
               <Button variant="ghost" className="w-full justify-start text-green-600">
@@ -69,7 +69,7 @@ export default async function RecicladorDashboardPage() {
             </CardHeader>
             <CardContent>
               <p className="text-sm">
-                Publica los materiales que recolectas o vendes para que empresas y usuarios te contacten.
+                Publica los materiales que recolectas para que empresas y usuarios te contacten.
               </p>
             </CardContent>
             <CardFooter>
@@ -134,9 +134,7 @@ export default async function RecicladorDashboardPage() {
               <CardDescription>Analiza tu actividad</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm">
-                Visualiza estadísticas de tus materiales, transacciones y valoraciones recibidas.
-              </p>
+              <p className="text-sm">Visualiza estadísticas de tus materiales y valoraciones recibidas.</p>
             </CardContent>
             <CardFooter>
               <Button variant="ghost" className="w-full justify-start text-amber-600">

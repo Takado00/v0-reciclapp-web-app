@@ -117,11 +117,7 @@ export function PersonaNaturalProfile({ profile, stats, isOwnProfile, userId }: 
             <div className="flex flex-row sm:flex-col gap-3 sm:gap-1 mt-2 sm:mt-0">
               <div className="text-center">
                 <p className="text-lg font-bold">{stats.materiales || 0}</p>
-                <p className="text-xs text-muted-foreground">Materiales</p>
-              </div>
-              <div className="text-center">
-                <p className="text-lg font-bold">{stats.transacciones || 0}</p>
-                <p className="text-xs text-muted-foreground">Transacciones</p>
+                <p className="text-xs text-muted-foreground">Materiales Publicados</p>
               </div>
             </div>
           </div>
