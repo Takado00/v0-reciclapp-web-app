@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge"
 export function MobileHeader() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [notificacionesNoLeidas, setNotificacionesNoLeidas] = useState(0)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const supabase = createClient()
   const router = useRouter()
 
@@ -23,7 +24,11 @@ export function MobileHeader() {
         const {
           data: { session },
         } = await supabase.auth.getSession()
-        if (!session) return
+        if (!session) {
+          setIsAuthenticated(false)
+          return
+        }
+        setIsAuthenticated(true)
 
         const { count, error } = await supabase
           .from("notificaciones")
@@ -118,9 +123,11 @@ export function MobileHeader() {
                     Notificaciones
                     {notificacionesNoLeidas > 0 && <Badge className="ml-2 bg-red-500">{notificacionesNoLeidas}</Badge>}
                   </Link>
-                  <button onClick={handleLogout} className="block py-2 hover:text-green-600 w-full text-left">
-                    Cerrar Sesión
-                  </button>
+                  {isAuthenticated && (
+                    <button onClick={handleLogout} className="block py-2 hover:text-green-600 w-full text-left">
+                      Cerrar Sesión
+                    </button>
+                  )}
                 </nav>
               </div>
             </SheetContent>

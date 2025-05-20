@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation"
 import { createActionClient } from "@/lib/supabase/server"
 import bcrypt from "bcryptjs"
+import { enviarNotificacionLogin, enviarCorreoBienvenida } from "./email-actions"
 
 // Tipos para las funciones de autenticación
 type LoginData = {
@@ -79,6 +80,14 @@ export async function loginUser(data: LoginData): Promise<AuthResult> {
     // Actualizar última conexión
     await supabase.from("usuarios").update({ ultima_conexion: new Date().toISOString() }).eq("id", usuario.id)
 
+    // Enviar notificación por correo electrónico (no bloqueamos el inicio de sesión si falla)
+    try {
+      await enviarNotificacionLogin(usuario.id)
+    } catch (emailError) {
+      console.error("Error al enviar notificación de inicio de sesión:", emailError)
+      // No bloqueamos el inicio de sesión si falla el envío del correo
+    }
+
     return {
       success: true,
       userId: usuario.id,
@@ -149,18 +158,24 @@ export async function registerUser(data: RegisterData): Promise<AuthResult> {
       password: data.password,
     })
 
+    if (authError) {
+      return {
+        success: false,
+        error: `Error al crear la cuenta: ${authError.message}`,
+      }
+    }
+
+    const userId = authData?.user?.id
+
     // Insertar el usuario en nuestra tabla personalizada
-    const { data: newUser, error: dbError } = await supabase
-      .from("usuarios")
-      .insert({
-        id: authData?.user?.id,
-        nombre: data.nombre,
-        correo: data.email,
-        contrasena: hashedPassword,
-        rol_id: rol.id,
-        fecha_registro: new Date().toISOString(),
-      })
-      .select()
+    const { error: dbError } = await supabase.from("usuarios").insert({
+      id: userId,
+      nombre: data.nombre,
+      correo: data.email,
+      contrasena: hashedPassword,
+      rol_id: rol.id,
+      fecha_registro: new Date().toISOString(),
+    })
 
     if (dbError) {
       console.error("Error al crear usuario en la base de datos:", dbError)
@@ -170,9 +185,17 @@ export async function registerUser(data: RegisterData): Promise<AuthResult> {
       }
     }
 
+    // Enviar correo de bienvenida (no bloqueamos el registro si falla)
+    try {
+      await enviarCorreoBienvenida(userId!)
+    } catch (emailError) {
+      console.error("Error al enviar correo de bienvenida:", emailError)
+      // No bloqueamos el registro si falla el envío del correo
+    }
+
     return {
       success: true,
-      userId: authData?.user?.id,
+      userId: userId,
     }
   } catch (error) {
     console.error("Error al registrar usuario:", error)

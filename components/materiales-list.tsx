@@ -28,54 +28,71 @@ export function MaterialesList({ materiales }: MaterialesListProps) {
     const categoriaLower = categoria.toLowerCase()
     const nombreLower = nombre.toLowerCase()
 
-    // Categoría Papel/Cartón
-    if (categoriaLower.includes("papel") || categoriaLower.includes("cartón") || categoriaLower.includes("carton")) {
-      if (nombreLower.includes("periódico") || nombreLower.includes("periodico") || nombreLower.includes("diario")) {
-        return "https://images.unsplash.com/photo-1598618443855-232ee0f819f6?q=80&w=800&auto=format&fit=crop"
-      }
-      return "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=800&auto=format&fit=crop"
-    }
-
-    // Categoría Plástico
-    else if (categoriaLower.includes("plástico") || categoriaLower.includes("plastico")) {
-      if (nombreLower.includes("pet") || nombreLower.includes("botella")) {
-        return "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg"
-      }
+    // Imágenes específicas basadas en el título
+    if (nombreLower.includes("botella") || nombreLower.includes("pet")) {
       return "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg"
-    }
-
-    // Categoría Vidrio
-    else if (categoriaLower.includes("vidrio")) {
+    } else if (nombreLower.includes("lata") || nombreLower.includes("aluminio")) {
+      return "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg"
+    } else if (
+      nombreLower.includes("vidrio") ||
+      nombreLower.includes("cristal") ||
+      nombreLower.includes("botella de vidrio")
+    ) {
       return "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg"
+    } else if (nombreLower.includes("cartón") || nombreLower.includes("carton") || nombreLower.includes("caja")) {
+      return "https://lcc.eco/wp-content/uploads/2024/11/Beneficios-de-reciclar-carton.webp"
+    } else if (nombreLower.includes("papel") || nombreLower.includes("periódico") || nombreLower.includes("revista")) {
+      return "https://th.bing.com/th/id/R.fa63d61675d85afb70b3f30a69463d67?rik=q7bC8FXKq91XKA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-fTB4dW7UeGg%2fTfp7R8ipmRI%2fAAAAAAAAAC8%2fNviFFkuPLYM%2fs1600%2fpapel20fotografico.jpg&ehk=ixrA86CzjrkEF6M9oafk6ruJ4ZOAb6Zp8Ttjh9%2bgo6Y%3d&risl=&pid=ImgRaw&r=0"
+    } else if (
+      nombreLower.includes("electrónico") ||
+      nombreLower.includes("electronico") ||
+      nombreLower.includes("computadora") ||
+      nombreLower.includes("celular") ||
+      nombreLower.includes("teléfono")
+    ) {
+      return "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2024/02/startup-gana-80000-euros-mes-extrayendo-oro-cobre-dispositivos-tiramos-basura-3270798.jpg?tf=1200x675"
+    } else if (nombreLower.includes("ropa") || nombreLower.includes("textil") || nombreLower.includes("tela")) {
+      return "https://www.canecas.com.co/images/NOTICIAS_2020/reciclar-retazos-de-tela-2.jpg"
+    } else if (
+      nombreLower.includes("orgánico") ||
+      nombreLower.includes("organico") ||
+      nombreLower.includes("compost") ||
+      nombreLower.includes("comida")
+    ) {
+      return "https://cdn0.uncomo.com/es/posts/8/8/1/que_se_tira_en_el_contenedor_organico_33188_600.jpg"
+    } else if (nombreLower.includes("madera") || nombreLower.includes("mueble")) {
+      return "https://www.reciclajesdolaf.com/wp-content/uploads/2019/10/reciclaje-de-madera-1024x683.jpg"
+    } else if (nombreLower.includes("batería") || nombreLower.includes("bateria") || nombreLower.includes("pila")) {
+      return "https://www.ambientum.com/wp-content/uploads/2021/09/pilas-696x464.jpg"
+    } else if (nombreLower.includes("aceite")) {
+      return "https://www.ecologiaverde.com/wp-content/uploads/2019/01/aceite-usado.jpg"
+    } else if (
+      nombreLower.includes("neumático") ||
+      nombreLower.includes("neumatico") ||
+      nombreLower.includes("llanta")
+    ) {
+      return "https://www.signus.es/wp-content/uploads/2022/01/Neumaticos-fuera-de-uso.jpg"
     }
 
-    // Categoría Metal/Aluminio
-    else if (categoriaLower.includes("metal") || categoriaLower.includes("aluminio")) {
-      if (nombreLower.includes("lata") || nombreLower.includes("aluminio") || nombreLower.includes("latas")) {
-        return "https://logisticamuialpcsupv.wordpress.com/wp-content/uploads/2017/05/aluminum-can.jpg?w=432"
-      }
-      return "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800&auto=format&fit=crop"
+    // Si no hay coincidencia por título, usar categoría como respaldo
+    if (categoriaLower.includes("papel") || categoriaLower.includes("cartón") || categoriaLower.includes("carton")) {
+      return "https://lcc.eco/wp-content/uploads/2024/11/Beneficios-de-reciclar-carton.webp"
+    } else if (categoriaLower.includes("plástico") || categoriaLower.includes("plastico")) {
+      return "https://5.imimg.com/data5/PP/HO/MY-19274525/plastic-water-bottle-500x500.jpg"
+    } else if (categoriaLower.includes("vidrio")) {
+      return "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg"
+    } else if (categoriaLower.includes("metal") || categoriaLower.includes("aluminio")) {
+      return "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg"
+    } else if (categoriaLower.includes("orgánico") || categoriaLower.includes("organico")) {
+      return "https://cdn0.uncomo.com/es/posts/8/8/1/que_se_tira_en_el_contenedor_organico_33188_600.jpg"
+    } else if (categoriaLower.includes("electrónico") || categoriaLower.includes("electronico")) {
+      return "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2024/02/startup-gana-80000-euros-mes-extrayendo-oro-cobre-dispositivos-tiramos-basura-3270798.jpg?tf=1200x675"
+    } else if (categoriaLower.includes("textil")) {
+      return "https://www.canecas.com.co/images/NOTICIAS_2020/reciclar-retazos-de-tela-2.jpg"
     }
 
-    // Categoría Orgánico
-    else if (categoriaLower.includes("orgánico") || categoriaLower.includes("organico")) {
-      return "https://images.unsplash.com/photo-1591954746678-a253972b2177?q=80&w=800&auto=format&fit=crop"
-    }
-
-    // Categoría Electrónico
-    else if (categoriaLower.includes("electrónico") || categoriaLower.includes("electronico")) {
-      return "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=800&auto=format&fit=crop"
-    }
-
-    // Categoría Textil
-    else if (categoriaLower.includes("textil") || nombreLower.includes("ropa") || nombreLower.includes("tela")) {
-      return "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=800&auto=format&fit=crop"
-    }
-
-    // Categoría por defecto
-    else {
-      return "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop"
-    }
+    // Imagen por defecto si no hay coincidencia
+    return "https://www.renovablesverdes.com/wp-content/uploads/2021/04/materiales-reciclables-para-reutilizar.jpg"
   }
 
   if (materiales.length === 0) {
