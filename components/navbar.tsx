@@ -80,24 +80,13 @@ export function Navbar() {
     if (user) {
       cargarNotificacionesNoLeidas()
 
-      // Suscribirse a cambios en la tabla de notificaciones
-      const channel = supabase
-        .channel("notificaciones_changes")
-        .on(
-          "postgres_changes",
-          {
-            event: "*",
-            schema: "public",
-            table: "notificaciones",
-          },
-          () => {
-            cargarNotificacionesNoLeidas()
-          },
-        )
-        .subscribe()
+      // Configurar un intervalo para actualizar periódicamente en lugar de usar WebSockets
+      const intervalId = setInterval(() => {
+        cargarNotificacionesNoLeidas()
+      }, 30000) // Actualizar cada 30 segundos
 
       return () => {
-        supabase.removeChannel(channel)
+        clearInterval(intervalId) // Limpiar el intervalo al desmontar
       }
     }
   }, [user, supabase])
