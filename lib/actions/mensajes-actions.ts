@@ -292,6 +292,27 @@ export async function crearConversacion(usuario1Id: string, usuario2Id: string, 
 
     const supabase = createActionClient()
 
+    // Verificar que ambos usuarios existen en la base de datos
+    const { data: usuarios, error: errorUsuarios } = await supabase
+      .from("usuarios")
+      .select("id")
+      .in("id", [usuario1Id, usuario2Id])
+
+    if (errorUsuarios) {
+      console.error("Error al verificar usuarios:", errorUsuarios)
+      return { success: false, error: "Error al verificar usuarios" }
+    }
+
+    // Comprobar que se encontraron exactamente 2 usuarios
+    if (!usuarios || usuarios.length !== 2) {
+      console.error("Uno o ambos usuarios no existen:", {
+        encontrados: usuarios?.length || 0,
+        usuario1Id,
+        usuario2Id,
+      })
+      return { success: false, error: "Uno o ambos usuarios no existen en la base de datos" }
+    }
+
     // Verificar si ya existe una conversación entre estos usuarios
     const { data: conversacionExistente, error: errorConsulta } = await supabase
       .from("conversaciones")

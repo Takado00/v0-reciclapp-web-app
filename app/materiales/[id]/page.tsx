@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Info, Recycle, Download } from "lucide-react"
+import { ArrowLeft, Info, Recycle } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 
 // Materiales predeterminados para mostrar cuando no se encuentra un material
@@ -219,39 +219,6 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg"
   }
 
-  // Verificar si estamos viendo el material de cartón (ID 2)
-  const isCarton =
-    materialToShow.id === 2 ||
-    (materialToShow.nombre &&
-      (materialToShow.nombre.toLowerCase().includes("cartón") ||
-        materialToShow.nombre.toLowerCase().includes("carton")) &&
-      materialToShow.categoria &&
-      (materialToShow.categoria.toLowerCase().includes("cartón") ||
-        materialToShow.categoria.toLowerCase().includes("carton")))
-
-  // Forzar la URL de la imagen para cartón
-  if (isCarton) {
-    materialToShow.imagen_url =
-      "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=800&auto=format&fit=crop"
-  }
-
-  // Usar imágenes de alta calidad para todos los materiales
-  const highQualityImages = {
-    1: "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=1200&auto=format&fit=crop", // Botellas PET
-    2: "https://images.unsplash.com/photo-1607583444909-8cc42d46f7b2?q=80&w=1200&auto=format&fit=crop", // Cartón
-    3: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPC-WIbhoXUB_A9DUrcUH6N7UmPXC433xlZA-YXF2MaYRtR8RfT-UUQbBP_52OTVHezB4pavp2ocZe6to9eAHvw8Hqjr-5v_N-pH6LXOHDiHSPzETQtgI74M0T5vNzB1lsfbJYN4kXCzo/s16000-rw/lata.jpg", // Latas de Aluminio
-    4: "https://images.unsplash.com/photo-1604349841434-d6e7837fc372?q=80&w=1200&auto=format&fit=crop", // Botellas de Vidrio
-    5: "https://images.unsplash.com/photo-1598618443855-232ee0f819f6?q=80&w=1200&auto=format&fit=crop", // Papel de Oficina
-    6: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=1200&auto=format&fit=crop", // Residuos Electrónicos
-    7: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=1200&auto=format&fit=crop", // Textiles
-    8: "https://images.unsplash.com/photo-1591954746678-a253972b2177?q=80&w=1200&auto=format&fit=crop", // Residuos Orgánicos
-  }
-
-  // Usar imagen de alta calidad si está disponible para este ID
-  if (materialToShow.id && highQualityImages[materialToShow.id as keyof typeof highQualityImages]) {
-    materialToShow.imagen_url = highQualityImages[materialToShow.id as keyof typeof highQualityImages]
-  }
-
   // Generar imágenes adicionales para la galería
   let gallery = []
 
@@ -403,47 +370,29 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Columna izquierda: Imágenes */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden border shadow-md">
+            <div className="aspect-video relative rounded-lg overflow-hidden border group">
               <Image
                 src={materialToShow.imagen_url || getDefaultImage(materialToShow.categoria, materialToShow.nombre)}
                 alt={materialToShow.nombre}
                 fill
-                className="object-contain"
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                onError={(e) => {
-                  // Fallback a una imagen genérica si la imagen principal falla
-                  const target = e.target as HTMLImageElement
-                  target.src =
-                    "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop"
-                }}
+                className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                <h2 className="text-white text-xl font-bold">{materialToShow.nombre}</h2>
-                <p className="text-white/80 text-sm">{materialToShow.categoria}</p>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
 
             {/* Solo mostrar la galería si no es el material de latas de aluminio */}
             {!isAluminumCans && gallery.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-2">
                 {gallery.map((img, index) => (
                   <div
                     key={index}
-                    className="relative h-[100px] rounded-md overflow-hidden border shadow cursor-pointer"
+                    className="aspect-square relative rounded-md overflow-hidden border cursor-pointer group"
                   >
                     <Image
                       src={img || getDefaultImage(materialToShow.categoria, materialToShow.nombre + " " + index)}
                       alt={`${materialToShow.nombre} - imagen ${index + 1}`}
                       fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                      onError={(e) => {
-                        // Fallback a una imagen genérica si la imagen de galería falla
-                        const target = e.target as HTMLImageElement
-                        target.src =
-                          "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop"
-                      }}
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
                 ))}
@@ -533,16 +482,10 @@ export default async function MaterialDetailPage({ params }: { params: { id: str
                 <Recycle className="mr-2 h-4 w-4" />
                 Contactar para reciclar
               </Button>
-              <div className="grid grid-cols-2 gap-2">
-                <Button variant="outline">
-                  <Info className="mr-2 h-4 w-4" />
-                  Más información
-                </Button>
-                <Button variant="outline">
-                  <Download className="mr-2 h-4 w-4" />
-                  Descargar ficha
-                </Button>
-              </div>
+              <Button variant="outline" className="w-full">
+                <Info className="mr-2 h-4 w-4" />
+                Solicitar más información
+              </Button>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { createActionClient } from "@/lib/supabase/server"
 import { getCurrentUser } from "@/lib/actions/auth-actions"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 
 // Tipos para las funciones de materiales
 type MaterialData = {
@@ -125,15 +126,12 @@ export async function getPublicacionById(id: number) {
 }
 
 // Función para crear una nueva publicación de material
-export async function crearPublicacion(formData: FormData): Promise<MaterialResult> {
+export async function crearPublicacion(formData: FormData) {
   try {
     const user = await getCurrentUser()
 
     if (!user) {
-      return {
-        success: false,
-        error: "Debes iniciar sesión para publicar materiales.",
-      }
+      return redirect("/login?redirect=/materiales/publicar")
     }
 
     const supabase = createActionClient()
@@ -154,14 +152,9 @@ export async function crearPublicacion(formData: FormData): Promise<MaterialResu
 
     // Validar datos
     if (!titulo || !material_id || !cantidad || !unidad_medida) {
-      return {
-        success: false,
-        error: "Faltan campos obligatorios.",
-      }
+      // Mostrar error en la UI
+      return { error: "Faltan campos obligatorios." }
     }
-
-    // Procesar fotos (esto sería implementado completamente con almacenamiento de archivos)
-    // Por ahora solo usamos la URL de imagen proporcionada
 
     // Insertar la publicación
     const { data: nuevaPublicacion, error } = await supabase
@@ -188,10 +181,7 @@ export async function crearPublicacion(formData: FormData): Promise<MaterialResu
 
     if (error) {
       console.error("Error al crear publicación:", error)
-      return {
-        success: false,
-        error: "Error al crear la publicación. Por favor, inténtalo de nuevo.",
-      }
+      return { error: "Error al crear la publicación. Por favor, inténtalo de nuevo." }
     }
 
     // Registrar en el historial
@@ -206,16 +196,11 @@ export async function crearPublicacion(formData: FormData): Promise<MaterialResu
 
     revalidatePath("/materiales")
 
-    return {
-      success: true,
-      publicacionId: nuevaPublicacion[0].id,
-    }
+    // Redirigir a la página de materiales después de crear la publicación
+    return redirect("/materiales")
   } catch (error) {
     console.error("Error al crear publicación:", error)
-    return {
-      success: false,
-      error: "Ha ocurrido un error al procesar tu solicitud. Inténtalo de nuevo más tarde.",
-    }
+    return { error: "Ha ocurrido un error al procesar tu solicitud. Inténtalo de nuevo más tarde." }
   }
 }
 

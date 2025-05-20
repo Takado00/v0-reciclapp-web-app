@@ -22,7 +22,9 @@ export default async function ContactarPage({
   } = await supabase.auth.getSession()
 
   if (!session) {
-    redirect("/login?redirect=/mensajes")
+    redirect(
+      "/login?redirect=/mensajes/contactar?id=" + destinatarioId + "&nombre=" + encodeURIComponent(destinatarioNombre),
+    )
   }
 
   const usuarioId = session.user.id
@@ -30,17 +32,58 @@ export default async function ContactarPage({
   // Verificar que el destinatario existe en la base de datos
   const { data: destinatario, error: errorDestinatario } = await supabase
     .from("usuarios")
-    .select("id, nombre")
+    .select("id, nombre, rol_id")
     .eq("id", destinatarioId)
     .maybeSingle()
 
   if (errorDestinatario || !destinatario) {
     console.error("Error al verificar destinatario:", errorDestinatario)
-    redirect("/mensajes?error=El destinatario no existe")
+    redirect("/mensajes?error=El destinatario no existe o ha sido eliminado")
   }
 
-  // Mensaje inicial predeterminado
-  const mensajeInicial = "Hola, me gustaría contactarte para hablar sobre reciclaje."
+  // Verificar que el usuario actual existe en la base de datos
+  const { data: usuarioActual, error: errorUsuarioActual } = await supabase
+    .from("usuarios")
+    .select("id, nombre, rol_id")
+    .eq("id", usuarioId)
+    .maybeSingle()
+
+  if (errorUsuarioActual || !usuarioActual) {
+    console.error("Error al verificar usuario actual:", errorUsuarioActual)
+
+    // Intentar crear el registro de usuario si no existe
+    const { data: userInfo } = await supabase.auth.getUser()
+
+    if (userInfo?.user) {
+      const { error: createError } = await supabase.from("usuarios").insert({
+        id: usuarioId,
+        nombre: userInfo.user.user_metadata?.name || "Usuario",
+        correo: userInfo.user.email,
+        rol_id: 1, // Usuario normal por defecto
+      })
+
+      if (createError) {
+        console.error("Error al crear usuario:", createError)
+        redirect("/login?error=No se pudo crear tu perfil. Por favor, contacta con soporte.")
+      }
+    } else {
+      redirect("/login?error=Tu sesión ha expirado o tu cuenta no existe")
+    }
+  }
+
+  // Determinar el tipo de usuario del destinatario
+  let tipoUsuario = "usuario"
+  if (destinatario.rol_id === 2) tipoUsuario = "reciclador"
+  if (destinatario.rol_id === 3) tipoUsuario = "empresa"
+
+  // Mensaje inicial predeterminado según el tipo de usuario
+  let mensajeInicial = "Hola, me gustaría contactarte para hablar sobre reciclaje."
+
+  if (tipoUsuario === "reciclador") {
+    mensajeInicial = "Hola, tengo materiales para reciclar. ¿Estás disponible para recogerlos?"
+  } else if (tipoUsuario === "empresa") {
+    mensajeInicial = "Hola, me interesa conocer más sobre sus servicios de reciclaje."
+  }
 
   try {
     // Crear una nueva conversación o usar una existente
@@ -55,6 +98,8 @@ export default async function ContactarPage({
   } catch (error) {
     console.error("Error al contactar:", error)
     // En caso de error, redirigir a la página de mensajes con un mensaje de error
-    redirect(`/mensajes?error=${encodeURIComponent("No se pudo iniciar la conversación: " + error)}`)
+    redirect(
+      `/mensajes?error=${encodeURIComponent("No se pudo iniciar la conversación. Por favor, inténtalo de nuevo más tarde.")}`,
+    )
   }
 }

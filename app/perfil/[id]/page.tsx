@@ -8,6 +8,7 @@ import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
 import { getUserProfile } from "@/lib/actions/profile-actions"
 import { notFound } from "next/navigation"
+import { createServerClient } from "@/lib/supabase/server"
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
@@ -18,6 +19,13 @@ export const metadata: Metadata = {
 }
 
 export default async function UserProfilePage({ params }: { params: { id: string } }) {
+  // Obtener el usuario actual para determinar si es el perfil propio
+  const supabase = createServerClient()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  const currentUserId = session?.user?.id
+
   // Obtener datos reales del perfil desde la base de datos
   const profileData = await getUserProfile(params.id)
 
@@ -63,8 +71,8 @@ export default async function UserProfilePage({ params }: { params: { id: string
     stats = profileData.stats
   }
 
-  // Determinar si es el perfil propio (para simplificar, asumimos que sí si no es el de ejemplo)
-  const isOwnProfile = params.id !== "ejemplo"
+  // Determinar si es el perfil propio
+  const isOwnProfile = currentUserId === params.id
 
   // Determinar qué componente de perfil mostrar según el rol
   const renderProfileByRole = () => {

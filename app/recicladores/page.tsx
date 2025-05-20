@@ -49,12 +49,13 @@ export default async function RecicladorListPage() {
                   </Button>
                 </Link>
                 <Link
-                  href={`/mensajes/contactar?id=${reciclador.id}&nombre=${encodeURIComponent(reciclador.nombre)}`}
+                  href={`/mensajes/contactar?id=${reciclador.id}&nombre=${encodeURIComponent(reciclador.nombre || "Reciclador")}`}
                   className="flex-1"
+                  prefetch={false}
                 >
                   <Button size="sm" className="w-full bg-green-600 hover:bg-green-700">
                     <MessageSquare className="h-3 w-3 mr-1" />
-                    Enviar mensaje
+                    Contactar
                   </Button>
                 </Link>
               </CardFooter>
