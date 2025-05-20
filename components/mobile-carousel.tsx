@@ -9,19 +9,30 @@ export function MobileCarousel() {
 
   const slides = [
     {
-      image: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?q=80&w=1000&auto=format&fit=crop",
-      title: "Recicla y gana puntos",
-      description: "Obtén recompensas por tus acciones ecológicas",
-    },
-    {
-      image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?q=80&w=1000&auto=format&fit=crop",
-      title: "Conecta con recicladores",
-      description: "Encuentra recicladores cerca de ti",
-    },
-    {
       image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=1000&auto=format&fit=crop",
-      title: "Aprende a reciclar",
-      description: "Guías y consejos para reciclar correctamente",
+      title: "Recicla materiales",
+      description: "Contribuye al medio ambiente reciclando correctamente",
+    },
+    {
+      image: "https://images.unsplash.com/photo-1604187351574-c75ca79f5807?q=80&w=1000&auto=format&fit=crop",
+      title: "Papel y cartón",
+      description: "Aprende a separar y reciclar papel correctamente",
+    },
+    {
+      image:
+        "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg",
+      title: "Vidrio reciclable",
+      description: "El vidrio es 100% reciclable y reutilizable",
+    },
+    {
+      image: "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=1000&auto=format&fit=crop",
+      title: "Plásticos",
+      description: "Conoce los diferentes tipos de plásticos reciclables",
+    },
+    {
+      image: "https://images.unsplash.com/photo-1616069555273-2f4d7d369c17?q=80&w=1000&auto=format&fit=crop",
+      title: "Metales",
+      description: "Los metales pueden reciclarse infinitas veces",
     },
   ]
 

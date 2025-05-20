@@ -18,7 +18,7 @@ export function MobileCategorias() {
       href: "/materiales?categoria=vidrio",
     },
     {
-      icon: "https://www.ecologiaverde.com/images/post/1200/1200-0-que-es-el-metal-definicion-tipos-y-caracteristicas.jpg",
+      icon: "https://www.ambientum.com/wp-content/uploads/2021/09/latas-de-aluminio-para-reciclar-696x464.jpg",
       name: "Metal",
       href: "/materiales?categoria=metal",
     },
@@ -28,7 +28,7 @@ export function MobileCategorias() {
       href: "/materiales?categoria=organico",
     },
     {
-      icon: "https://www.ecologiaverde.com/images/post/1200/1200-0-que-son-los-residuos-electronicos-definicion-y-ejemplos.jpg",
+      icon: "https://th.bing.com/th/id/OIP.-bbLtgKVZm_LfBaIVHLIaAHaFj?w=640&h=480&rs=1&pid=ImgDetMain",
       name: "Electrónico",
       href: "/materiales?categoria=electronico",
     },

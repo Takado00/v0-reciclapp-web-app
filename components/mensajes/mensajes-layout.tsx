@@ -31,6 +31,8 @@ export function MensajesLayout({ children }: MensajesLayoutProps) {
       setActiveTab("inicio")
     } else if (pathname.includes("/mensajes/contactos")) {
       setActiveTab("contactos")
+    } else if (pathname.includes("/usuarios")) {
+      setActiveTab("usuarios")
     } else {
       setActiveTab("todas")
     }
@@ -102,7 +104,7 @@ export function MensajesLayout({ children }: MensajesLayoutProps) {
                 Recicladores
               </Button>
             </Link>
-            <Link href="/mensajes/empresas">
+            <Link href="/empresas">
               <Button
                 variant={activeTab === "empresas" ? "default" : "outline"}
                 className={`w-full justify-start ${activeTab === "empresas" ? "bg-blue-600 hover:bg-blue-700" : ""}`}
@@ -111,13 +113,13 @@ export function MensajesLayout({ children }: MensajesLayoutProps) {
                 Empresas
               </Button>
             </Link>
-            <Link href="/mensajes/contactos">
+            <Link href="/usuarios">
               <Button
-                variant={activeTab === "contactos" ? "default" : "outline"}
-                className={`w-full justify-start ${activeTab === "contactos" ? "bg-purple-600 hover:bg-purple-700" : ""}`}
+                variant={activeTab === "usuarios" ? "default" : "outline"}
+                className={`w-full justify-start ${activeTab === "usuarios" ? "bg-purple-600 hover:bg-purple-700" : ""}`}
               >
                 <Users className="h-4 w-4 mr-2" />
-                Contactos
+                Todos los Usuarios
               </Button>
             </Link>
           </div>
