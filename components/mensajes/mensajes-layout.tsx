@@ -104,7 +104,7 @@ export function MensajesLayout({ children }: MensajesLayoutProps) {
                 Recicladores
               </Button>
             </Link>
-            <Link href="/empresas">
+            <Link href="/empresas-registradas">
               <Button
                 variant={activeTab === "empresas" ? "default" : "outline"}
                 className={`w-full justify-start ${activeTab === "empresas" ? "bg-blue-600 hover:bg-blue-700" : ""}`}
