@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, Plus } from "lucide-react"
 import { MaterialesList } from "@/components/materiales-list"
 import { MaterialesFilter } from "@/components/materiales-filter"
+import { FloatingActionButton } from "@/components/floating-action-button"
 
 export default async function MaterialesPage({
   searchParams,
@@ -46,6 +47,9 @@ export default async function MaterialesPage({
       <Suspense fallback={<MaterialesListSkeleton />}>
         <MaterialesListWrapper searchParams={searchParams} />
       </Suspense>
+
+      {/* Botón flotante para publicar material */}
+      <FloatingActionButton />
     </div>
   )
 }

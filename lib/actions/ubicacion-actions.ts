@@ -7,30 +7,36 @@ type Ubicacion = {
   id: string
   nombre: string
   direccion: string
-  latitud: number
-  longitud: number
+  ciudad: string
+  estado: string
+  pais: string
+  codigo_postal: string
+  latitud: number | null
+  longitud: number | null
   tipo: string
   descripcion: string
   usuario_id: string
+  created_at: string
 }
 
 // Tipo para los datos de nueva ubicación
-type NuevaUbicacion = Omit<Ubicacion, "id">
+type NuevaUbicacion = Omit<Ubicacion, "id" | "created_at">
 
 // Función para obtener todas las ubicaciones
-export async function fetchUbicaciones(): Promise<Ubicacion[]> {
+export async function getUbicaciones(): Promise<Ubicacion[]> {
   try {
     const supabase = createActionClient()
-    const { data, error } = await supabase.from("ubicaciones").select("*")
+    const { data, error } = await supabase.from("ubicaciones").select("*").order("nombre")
 
     if (error) {
-      throw error
+      console.error("Error al obtener ubicaciones:", error)
+      return []
     }
 
     return data || []
   } catch (error) {
-    console.error("Error al obtener ubicaciones:", error)
-    throw new Error("No se pudieron cargar las ubicaciones")
+    console.error("Error inesperado al obtener ubicaciones:", error)
+    return []
   }
 }
 
@@ -124,5 +130,79 @@ export async function updateUbicacion(ubicacionId: string, ubicacionData: Partia
   }
 }
 
-// Exportar fetchUbicaciones también como getUbicaciones para mantener compatibilidad
-export const getUbicaciones = fetchUbicaciones
+// Función para obtener una ubicación por ID
+export async function getUbicacionById(id: string): Promise<Ubicacion | null> {
+  try {
+    const supabase = createActionClient()
+    const { data, error } = await supabase.from("ubicaciones").select("*").eq("id", id).single()
+
+    if (error) {
+      console.error("Error al obtener ubicación:", error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error("Error inesperado al obtener ubicación:", error)
+    return null
+  }
+}
+
+// Función para crear una nueva ubicación
+export async function crearUbicacion(formData: FormData) {
+  try {
+    const supabase = createActionClient()
+
+    // Obtener el usuario actual
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { error: "Usuario no autenticado" }
+    }
+
+    // Extraer datos del formulario
+    const nombre = formData.get("nombre") as string
+    const direccion = formData.get("direccion") as string
+    const ciudad = formData.get("ciudad") as string
+    const estado = formData.get("estado") as string
+    const pais = formData.get("pais") as string
+    const codigo_postal = formData.get("codigo_postal") as string
+    const latitud = formData.get("latitud") ? Number.parseFloat(formData.get("latitud") as string) : null
+    const longitud = formData.get("longitud") ? Number.parseFloat(formData.get("longitud") as string) : null
+
+    // Validar datos obligatorios
+    if (!nombre || !ciudad) {
+      return { error: "Faltan campos obligatorios" }
+    }
+
+    // Insertar en la tabla de ubicaciones
+    const { data: ubicacion, error: ubicacionError } = await supabase
+      .from("ubicaciones")
+      .insert({
+        nombre,
+        direccion,
+        ciudad,
+        estado,
+        pais,
+        codigo_postal,
+        latitud,
+        longitud,
+        usuario_id: user.id,
+        created_at: new Date().toISOString(),
+      })
+      .select()
+      .single()
+
+    if (ubicacionError) {
+      console.error("Error al crear ubicación:", ubicacionError)
+      return { error: "Error al crear la ubicación" }
+    }
+
+    return { success: true, ubicacion }
+  } catch (error) {
+    console.error("Error al crear ubicación:", error)
+    return { error: "Error al procesar la solicitud" }
+  }
+}

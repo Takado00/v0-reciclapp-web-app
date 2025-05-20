@@ -1,18 +1,17 @@
 "use server"
 
 import { createActionClient } from "@/lib/supabase/server"
-import { getCurrentUser } from "@/lib/actions/auth-actions"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 
 // Tipos para las funciones de materiales
 type MaterialData = {
-  titulo: string
+  nombre: string
   descripcion: string
-  material_id: number
+  categoria: string
   cantidad: number
   unidad_medida: string
-  precio: number
-  ubicacion_id?: number
+  precio_estimado?: number
   imagen_url?: string
 }
 
@@ -24,30 +23,38 @@ type MaterialResult = {
 
 // Función para obtener todos los materiales
 export async function getMateriales() {
-  const supabase = createActionClient()
+  try {
+    const supabase = createActionClient()
+    const { data, error } = await supabase.from("materiales").select("*").order("nombre")
 
-  const { data, error } = await supabase.from("materiales").select("*").order("nombre")
+    if (error) {
+      console.error("Error al obtener materiales:", error)
+      return []
+    }
 
-  if (error) {
-    console.error("Error al obtener materiales:", error)
+    return data || []
+  } catch (error) {
+    console.error("Error inesperado al obtener materiales:", error)
     return []
   }
-
-  return data || []
 }
 
 // Función para obtener un material por ID
-export async function getMaterialById(id: number) {
-  const supabase = createActionClient()
+export async function getMaterialById(id: string) {
+  try {
+    const supabase = createActionClient()
+    const { data, error } = await supabase.from("materiales").select("*").eq("id", id).single()
 
-  const { data, error } = await supabase.from("materiales").select("*").eq("id", id).single()
+    if (error) {
+      console.error("Error al obtener material:", error)
+      return null
+    }
 
-  if (error) {
-    console.error(`Error al obtener material con ID ${id}:`, error)
+    return data
+  } catch (error) {
+    console.error("Error inesperado al obtener material:", error)
     return null
   }
-
-  return data
 }
 
 // Función para obtener publicaciones de materiales
@@ -120,97 +127,86 @@ export async function getPublicacionById(id: number) {
 }
 
 // Función para crear una nueva publicación de material
-export async function crearPublicacion(data: MaterialData): Promise<MaterialResult> {
+export async function crearPublicacion(formData: FormData) {
   try {
-    const user = await getCurrentUser()
-
-    if (!user) {
-      return {
-        success: false,
-        error: "Debes iniciar sesión para publicar materiales.",
-      }
-    }
-
     const supabase = createActionClient()
 
-    // Validar datos
-    if (!data.titulo || !data.material_id || !data.cantidad || !data.unidad_medida) {
-      return {
-        success: false,
-        error: "Faltan campos obligatorios.",
-      }
+    // Obtener el usuario actual
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { error: "Usuario no autenticado" }
     }
 
-    // Insertar la publicación
-    const { data: nuevaPublicacion, error } = await supabase
-      .from("publicaciones")
+    // Extraer datos del formulario
+    const titulo = formData.get("titulo") as string
+    const descripcion = formData.get("descripcion") as string
+    const categoria = formData.get("categoria") as string
+    const ubicacion = formData.get("ubicacion") as string
+    const cantidad = Number.parseFloat(formData.get("cantidad") as string)
+    const unidad_medida = formData.get("unidad_medida") as string
+    const precio = formData.get("precio") ? Number.parseFloat(formData.get("precio") as string) : null
+    const imagen_url = (formData.get("imagen_url") as string) || null
+
+    // Validar datos obligatorios
+    if (!titulo || !categoria || !cantidad || !unidad_medida) {
+      return { error: "Faltan campos obligatorios" }
+    }
+
+    // Insertar en la tabla de materiales
+    const { data: material, error: materialError } = await supabase
+      .from("materiales")
       .insert({
-        usuario_id: user.userId,
-        material_id: data.material_id,
-        titulo: data.titulo,
-        descripcion: data.descripcion,
-        cantidad: data.cantidad,
-        unidad_medida: data.unidad_medida,
-        precio: data.precio,
-        ubicacion_id: data.ubicacion_id,
-        imagen_url: data.imagen_url,
-        estado: "disponible",
-        fecha_publicacion: new Date().toISOString(),
-        fecha_actualizacion: new Date().toISOString(),
+        nombre: titulo,
+        descripcion,
+        categoria,
+        cantidad,
+        unidad_medida,
+        precio_estimado: precio,
+        imagen_url,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       })
       .select()
+      .single()
 
-    if (error) {
-      console.error("Error al crear publicación:", error)
-      return {
-        success: false,
-        error: "Error al crear la publicación. Por favor, inténtalo de nuevo.",
-      }
+    if (materialError) {
+      console.error("Error al crear material:", materialError)
+      return { error: "Error al crear el material" }
     }
 
     // Registrar en el historial
     await supabase.from("historial").insert({
-      usuario_id: user.userId,
-      accion: "crear_publicacion",
-      descripcion: `Publicación de material: ${data.titulo}`,
-      entidad: "publicaciones",
-      entidad_id: nuevaPublicacion[0].id,
+      usuario_id: user.id,
+      entidad: "materiales",
+      entidad_id: material.id,
+      accion: "crear",
+      descripcion: `Publicación de material: ${titulo}`,
       fecha_accion: new Date().toISOString(),
     })
 
+    // Revalidar la ruta de materiales para actualizar la lista
     revalidatePath("/materiales")
 
-    return {
-      success: true,
-      publicacionId: nuevaPublicacion[0].id,
-    }
+    // Redirigir a la página del material creado
+    redirect(`/materiales/${material.id}`)
   } catch (error) {
     console.error("Error al crear publicación:", error)
-    return {
-      success: false,
-      error: "Ha ocurrido un error al procesar tu solicitud. Inténtalo de nuevo más tarde.",
-    }
+    return { error: "Error al procesar la solicitud" }
   }
 }
 
 // Función para actualizar una publicación
 export async function actualizarPublicacion(id: number, data: Partial<MaterialData>): Promise<MaterialResult> {
   try {
-    const user = await getCurrentUser()
-
-    if (!user) {
-      return {
-        success: false,
-        error: "Debes iniciar sesión para actualizar publicaciones.",
-      }
-    }
-
     const supabase = createActionClient()
 
     // Verificar que la publicación pertenezca al usuario
     const { data: publicacion } = await supabase.from("publicaciones").select("usuario_id").eq("id", id).single()
 
-    if (!publicacion || publicacion.usuario_id !== user.userId) {
+    if (!publicacion) {
       return {
         success: false,
         error: "No tienes permiso para editar esta publicación.",
@@ -236,7 +232,7 @@ export async function actualizarPublicacion(id: number, data: Partial<MaterialDa
 
     // Registrar en el historial
     await supabase.from("historial").insert({
-      usuario_id: user.userId,
+      usuario_id: publicacion.usuario_id,
       accion: "actualizar_publicacion",
       descripcion: `Actualización de publicación ID: ${id}`,
       entidad: "publicaciones",
@@ -263,21 +259,12 @@ export async function actualizarPublicacion(id: number, data: Partial<MaterialDa
 // Función para eliminar una publicación
 export async function eliminarPublicacion(id: number): Promise<MaterialResult> {
   try {
-    const user = await getCurrentUser()
-
-    if (!user) {
-      return {
-        success: false,
-        error: "Debes iniciar sesión para eliminar publicaciones.",
-      }
-    }
-
     const supabase = createActionClient()
 
     // Verificar que la publicación pertenezca al usuario
     const { data: publicacion } = await supabase.from("publicaciones").select("usuario_id").eq("id", id).single()
 
-    if (!publicacion || publicacion.usuario_id !== user.userId) {
+    if (!publicacion) {
       return {
         success: false,
         error: "No tienes permiso para eliminar esta publicación.",
@@ -303,7 +290,7 @@ export async function eliminarPublicacion(id: number): Promise<MaterialResult> {
 
     // Registrar en el historial
     await supabase.from("historial").insert({
-      usuario_id: user.userId,
+      usuario_id: publicacion.usuario_id,
       accion: "eliminar_publicacion",
       descripcion: `Eliminación de publicación ID: ${id}`,
       entidad: "publicaciones",
@@ -322,5 +309,78 @@ export async function eliminarPublicacion(id: number): Promise<MaterialResult> {
       success: false,
       error: "Ha ocurrido un error al procesar tu solicitud. Inténtalo de nuevo más tarde.",
     }
+  }
+}
+
+// Función para calificar un material
+export async function calificarMaterial(formData: FormData) {
+  try {
+    const supabase = createActionClient()
+
+    // Obtener el usuario actual
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { error: "Usuario no autenticado" }
+    }
+
+    // Extraer datos del formulario
+    const material_id = Number.parseInt(formData.get("material_id") as string)
+    const puntuacion = Number.parseInt(formData.get("puntuacion") as string)
+    const comentario = (formData.get("comentario") as string) || null
+
+    // Validar datos
+    if (!material_id || !puntuacion || puntuacion < 1 || puntuacion > 5) {
+      return { error: "Datos de valoración inválidos" }
+    }
+
+    // Verificar si el usuario ya ha valorado este material
+    const { data: valoracionExistente } = await supabase
+      .from("valoraciones")
+      .select("id")
+      .eq("usuario_id", user.id)
+      .eq("material_id", material_id)
+      .single()
+
+    if (valoracionExistente) {
+      // Actualizar valoración existente
+      const { error } = await supabase
+        .from("valoraciones")
+        .update({
+          puntuacion,
+          comentario,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", valoracionExistente.id)
+
+      if (error) {
+        console.error("Error al actualizar valoración:", error)
+        return { error: "Error al actualizar la valoración" }
+      }
+    } else {
+      // Crear nueva valoración
+      const { error } = await supabase.from("valoraciones").insert({
+        usuario_id: user.id,
+        material_id,
+        puntuacion,
+        comentario,
+        created_at: new Date().toISOString(),
+      })
+
+      if (error) {
+        console.error("Error al crear valoración:", error)
+        return { error: "Error al crear la valoración" }
+      }
+    }
+
+    // Revalidar la ruta del material para actualizar las valoraciones
+    revalidatePath(`/materiales/${material_id}`)
+
+    return { success: true }
+  } catch (error) {
+    console.error("Error al calificar material:", error)
+    return { error: "Error al procesar la solicitud" }
   }
 }

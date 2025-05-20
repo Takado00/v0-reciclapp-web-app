@@ -13,32 +13,32 @@ export function MobileCategorias() {
       href: "/materiales?categoria=plastico",
     },
     {
-      icon: "https://sjc.microlink.io/EYGEMpkCnAldyf9_z_SqQ15uHSZA5wRzhQk5M4j_NLgvesoQJBqmquWn924vj_7MG-2OJj7g9O3M--vecOe0bg.jpeg",
+      icon: "https://th.bing.com/th/id/OIP.0QEZeffUk9_aTc8bwp_B4QHaE8?cb=iwc2&rs=1&pid=ImgDetMain",
       name: "Vidrio",
       href: "/materiales?categoria=vidrio",
     },
     {
-      icon: "https://www.ambientum.com/wp-content/uploads/2021/09/latas-de-aluminio-para-reciclar-696x464.jpg",
+      icon: "https://limpiezademalaga.es/wp-content/uploads/2022/04/Post-reciclar-metales-abril22-1-1024x769.jpg",
       name: "Metal",
       href: "/materiales?categoria=metal",
     },
     {
-      icon: "https://www.ecologiaverde.com/images/post/1200/1200-0-que-son-los-residuos-organicos-definicion-y-ejemplos.jpg",
+      icon: "https://cdn0.uncomo.com/es/posts/8/8/1/que_se_tira_en_el_contenedor_organico_33188_600.jpg",
       name: "Orgánico",
       href: "/materiales?categoria=organico",
     },
     {
-      icon: "https://th.bing.com/th/id/OIP.-bbLtgKVZm_LfBaIVHLIaAHaFj?w=640&h=480&rs=1&pid=ImgDetMain",
+      icon: "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2024/02/startup-gana-80000-euros-mes-extrayendo-oro-cobre-dispositivos-tiramos-basura-3270798.jpg?tf=1200x675",
       name: "Electrónico",
       href: "/materiales?categoria=electronico",
     },
     {
-      icon: "https://www.ecologiaverde.com/images/post/1200/1200-0-que-es-el-reciclaje-textil-y-su-importancia.jpg",
+      icon: "https://www.canecas.com.co/images/NOTICIAS_2020/reciclar-retazos-de-tela-2.jpg",
       name: "Textil",
       href: "/materiales?categoria=textil",
     },
     {
-      icon: "https://www.ecologiaverde.com/images/post/1200/1200-0-que-son-los-residuos-inorganicos-definicion-y-ejemplos.jpg",
+      icon: "https://www.renovablesverdes.com/wp-content/uploads/2021/04/materiales-reciclables-para-reutilizar.jpg",
       name: "Otros",
       href: "/materiales?categoria=otros",
     },
